@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Monparti</string>
+    <string name="title_activity_agregar_entrada">AgregarEntrada</string>
+    <string name="labelNombre">Nombre: </string>
+    <string name="labelDescripcion">Descripción: </string>
+    <string name="labelNota">Nota: </string>
+    <string name="labelCategoria">Categoría: </string>
+    <string-array name="spinnerCategoria">
+        <item>Seleccione una categoría</item>
+        <item>Monumentos</item>
+        <item>Parques</item>
+        <item>Tiendas</item>
+    </string-array>
+    <string name="botonGuardar">Guardar</string>
+    <string name="botonGaleria">Galeria</string>
 </resources>
