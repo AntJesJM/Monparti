@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Monparti</string>
+    <string name="app_name" translatable="false">Monparti</string>
 
     <!--- Listado -->
     <string-array name="spinnerCategoria">
