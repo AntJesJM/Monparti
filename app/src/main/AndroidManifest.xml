@@ -18,7 +18,6 @@
         </activity>
         <activity
             android:name=".AgregarEntrada"
-            android:label="@string/title_activity_agregar_entrada"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Listado"
