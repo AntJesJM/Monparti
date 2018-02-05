@@ -1,17 +1,25 @@
 <resources>
     <string name="app_name">Monparti</string>
-    <string name="labelNombre">Nombre: </string>
-    <string name="labelDescripcion">Descripción: </string>
-    <string name="labelNota">Nota: </string>
-    <string name="labelCategoria">Categoría: </string>
+
+    <!--- Listado -->
     <string-array name="spinnerCategoria">
         <item>Seleccione una categoría</item>
         <item>Monumentos</item>
         <item>Parques</item>
         <item>Tiendas</item>
     </string-array>
+    <string name="botonMapa">Mapa</string>
+
+    <!--- Añadir / Editar / Ver-->
+    <string name="labelNombre">Nombre: </string>
+    <string name="labelDescripcion">Descripción: </string>
+    <string name="labelNota">Nota: </string>
+    <string name="labelCategoria">Categoría: </string>
     <string name="botonGuardar">Guardar</string>
     <string name="botonGaleria">Galeria</string>
-    <string name="title_activity_listado">Listado</string>
-    <string name="title_activity_ver_mapa">Mapa</string>
+
+    <!--- Diálogo eliminar-->
+    <string name="botonAceptar">Aceptar</string>
+    <string name="botonCancelar">Cancelar</string>
+
 </resources>
