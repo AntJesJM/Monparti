@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Monparti.iml" filepath="$PROJECT_DIR$/Monparti.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Monparti.iml" filepath="$PROJECT_DIR$/.idea/Monparti.iml" />
+      <module fileurl="file://C:\Users\UNO\AndroidStudioProjects\Monparti\Monparti.iml" filepath="C:\Users\UNO\AndroidStudioProjects\Monparti\Monparti.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -13,4 +13,5 @@
     </string-array>
     <string name="botonGuardar">Guardar</string>
     <string name="botonGaleria">Galeria</string>
+    <string name="title_activity_listado">Listado</string>
 </resources>
