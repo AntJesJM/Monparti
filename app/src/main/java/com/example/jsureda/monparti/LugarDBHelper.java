@@ -35,4 +35,9 @@ public class LugarDBHelper extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
+
+    public long guardarLugar(Lugar lugar){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        return sqLiteDatabase.insert(EstructuraLugares.EntradaLugares.NOMBRE_TABLA,null,lugar.toContentValues());
+    }
 }

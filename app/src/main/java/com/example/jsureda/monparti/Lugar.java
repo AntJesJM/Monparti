@@ -1,6 +1,8 @@
 package com.example.jsureda.monparti;
 
 
+import android.content.ContentValues;
+
 import java.util.UUID;
 
 public class Lugar {
@@ -53,5 +55,17 @@ public class Lugar {
 
     public String getImagen() {
         return imagen;
+    }
+    public ContentValues toContentValues(){
+        ContentValues valores = new ContentValues();
+        valores.put(EstructuraLugares.EntradaLugares.ID,id);
+        valores.put(EstructuraLugares.EntradaLugares.NOMBRE,nombre);
+        valores.put(EstructuraLugares.EntradaLugares.CATEGORIA,categoria);
+        valores.put(EstructuraLugares.EntradaLugares.VALORACION,valoracion);
+        valores.put(EstructuraLugares.EntradaLugares.LONGITUD,longitud);
+        valores.put(EstructuraLugares.EntradaLugares.LATITUD,latitud);
+        valores.put(EstructuraLugares.EntradaLugares.IMAGEN,imagen);
+
+        return valores;
     }
 }
