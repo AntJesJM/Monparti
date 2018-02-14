@@ -8,19 +8,36 @@
     tools:context="com.example.jsureda.monparti.Bienvenida">
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/textView"
+        android:layout_width="284dp"
+        android:layout_height="117dp"
         android:gravity="center"
         android:shadowColor="#000000"
         android:shadowDx="20"
         android:shadowDy="20"
         android:shadowRadius="20"
-        android:text="Monparti"
+        android:text="@string/app_name"
         android:textColor="#ffffff"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.226" />
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.775" />
 
 </android.support.constraint.ConstraintLayout>

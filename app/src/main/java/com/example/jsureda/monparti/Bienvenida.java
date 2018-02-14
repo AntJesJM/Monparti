@@ -25,7 +25,7 @@ public class Bienvenida extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent homeIntent = new Intent(Bienvenida.this, AgregarEntrada.class);
+                Intent homeIntent = new Intent(Bienvenida.this, Listado.class);
                 startActivity(homeIntent);
                 finish();
             }
