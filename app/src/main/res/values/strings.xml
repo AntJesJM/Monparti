@@ -21,5 +21,6 @@
     <!--- Diálogo eliminar-->
     <string name="botonAceptar">Aceptar</string>
     <string name="botonCancelar">Cancelar</string>
+    <string name="title_activity_ver_lugar">VerLugar</string>
 
 </resources>
