@@ -5,17 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.jsureda.monparti.AgregarEntrada"
+    tools:context="com.example.jsureda.monparti.IntroducirLugar"
     tools:showIn="@layout/activity_agregar_entrada">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="450dp"
+        android:paddingBottom="70dp">
 
         <LinearLayout
+            android:id="@+id/layAned"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="80dp"
+            android:layout_height="400dp"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -23,7 +26,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <TextView
@@ -42,14 +45,15 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:selectAllOnFocus="false" />
 
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <TextView
@@ -74,7 +78,55 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblHorarioAned"
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/labelHorario"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/txtAbreAned"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="time" />
+
+                    <TextView
+                        android:id="@+id/lblGuion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/labelGuion" />
+
+                    <EditText
+                        android:id="@+id/txtCierraAned"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="time" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -126,28 +178,15 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/imgAned"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="150dp"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <com.google.android.gms.maps.MapView
-                        android:id="@+id/mapViewAned"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <Button
-                        android:id="@+id/btnGuardar"
-                        android:layout_width="match_parent"
-                        android:layout_height="75dp"
-                        android:layout_weight="1"
-                        android:text="@string/botonGuardar" />
-                </LinearLayout>
+                    app:srcCompat="@mipmap/ic_launcher" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -155,36 +194,49 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/imgAned"
+                    <ImageButton
+                        android:id="@+id/iBtnCamara"
+                        style="@style/Widget.AppCompat.ImageButton"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:srcCompat="@mipmap/ic_launcher" />
+                        android:background="@android:color/transparent"
+                        app:srcCompat="@drawable/btncam" />
 
-                    <LinearLayout
+                    <ImageButton
+                        android:id="@+id/iBtnGaleria"
+                        style="@style/Widget.AppCompat.ImageButton"
                         android:layout_width="match_parent"
-                        android:layout_height="75dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btnGaleria"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/botonGaleria" />
-
-                        <ImageButton
-                            android:id="@+id/btnCamara"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:srcCompat="@android:drawable/ic_menu_camera" />
-                    </LinearLayout>
+                        android:background="@android:color/transparent"
+                        android:src="@android:drawable/ic_menu_camera"
+                        app:srcCompat="@drawable/btngaleria" />
 
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapViewAned"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/iBtnGuardar"
+                    style="@style/Widget.AppCompat.ImageButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/ic_menu_camera" />
             </LinearLayout>
 
         </LinearLayout>

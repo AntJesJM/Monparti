@@ -13,6 +13,8 @@
     <!--- Añadir / Editar / Ver-->
     <string name="labelNombre">Nombre: </string>
     <string name="labelDescripcion">Descripción: </string>
+    <string name="labelHorario">Horario: </string>
+    <string name="labelGuion"> - </string>
     <string name="labelNota">Nota: </string>
     <string name="labelCategoria">Categoría: </string>
     <string name="botonGuardar">Guardar</string>

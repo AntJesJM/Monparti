@@ -24,11 +24,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AgregarEntrada"
+            android:name=".Listado"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Listado"
+            android:name=".IntroducirLugar"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
