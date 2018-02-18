@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.jsureda.monparti.IntroducirLugar"
-    tools:showIn="@layout/activity_agregar_entrada">
+    tools:showIn="@layout/activity_introducir_lugar">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -178,13 +178,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="150dp"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/imgAned"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     app:srcCompat="@mipmap/ic_launcher" />
 
@@ -210,7 +210,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:src="@android:drawable/ic_menu_camera"
                         app:srcCompat="@drawable/btngaleria" />
 
                 </LinearLayout>
@@ -233,10 +232,11 @@
                 <ImageButton
                     android:id="@+id/iBtnGuardar"
                     style="@style/Widget.AppCompat.ImageButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@android:drawable/ic_menu_camera" />
+                    android:background="@android:color/transparent"
+                    app:srcCompat="@drawable/markmap" />
             </LinearLayout>
 
         </LinearLayout>
