@@ -15,7 +15,7 @@
             android:id="@+id/spnCatMap"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:entries="@str" />
+           />
 
 
         <com.google.android.gms.maps.MapView
