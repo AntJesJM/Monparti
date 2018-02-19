@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name" translatable="false">Monparti</string>
+
+    <!--- Listado -->
+    <string-array name="spinnerCategoria">
+        <item>Choose category</item>
+        <item>Monuments</item>
+        <item>Parks</item>
+        <item>Shops</item>
+    </string-array>
+    <string name="botonMapa">Map</string>
+
+    <!--- Añadir / Editar / Ver-->
+    <string name="labelNombre">Name: </string>
+    <string name="labelDescripcion">Description: </string>
+    <string name="labelHorario">Schedule: </string>
+    <string name="labelGuion"> - </string>
+    <string name="labelNota">Rate: </string>
+    <string name="labelCategoria">Category: </string>
+    <string name="botonGuardar">Save</string>
+    <string name="botonGaleria">Galery</string>
+
+    <!--- Diálogo eliminar-->
+    <string name="botonAceptar">Accept</string>
+    <string name="botonCancelar">Cancel</string>
+    <string name="title_activity_ver_lugar">SeePlace</string>
+
+</resources>
