@@ -19,6 +19,7 @@
     <string name="labelCategoria">Categoría: </string>
     <string name="botonGuardar">Guardar</string>
     <string name="botonGaleria">Galeria</string>
+    <string name="picker">Seleccionar hora</string>
 
     <!--- Diálogo eliminar-->
     <string name="botonAceptar">Aceptar</string>

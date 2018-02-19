@@ -1,5 +1,6 @@
 package com.example.jsureda.monparti;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,11 +13,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import com.google.android.gms.maps.MapView;
 
+import java.util.Calendar;
+
 public class IntroducirLugar extends AppCompatActivity {
-    EditText nombre, descripcion;
+    EditText nombre, descripcion, apertura, cierre;
     Spinner categorias;
     RatingBar barra;
     MapView mapa;
@@ -42,12 +46,54 @@ public class IntroducirLugar extends AppCompatActivity {
                 finish();
             }
         });
+
+        // perform click event listener on edit text
+        apertura.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(IntroducirLugar.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        apertura.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
+
+        // perform click event listener on edit text
+        cierre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(IntroducirLugar.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        cierre.setText(selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+
+            }
+        });
     }
 
     public void inicializarUI() {
         nombre = (EditText) findViewById(R.id.txtNombreAned);
         descripcion = (EditText) findViewById(R.id.txtDescAned);
         categorias = (Spinner) findViewById(R.id.spnCatAned);
+        apertura= (EditText) findViewById(R.id.txtAbreAned);
+        cierre= (EditText) findViewById(R.id.txtCierraAned);
         barra = (RatingBar) findViewById(R.id.barraNotaAned);
         guardar = (ImageButton)findViewById(R.id.iBtnGuardar);
         galeria = (ImageButton)findViewById(R.id.iBtnGaleria);
