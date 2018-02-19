@@ -20,7 +20,7 @@ public class VerMapa extends FragmentActivity implements OnMapReadyCallback {
         setContentView(R.layout.activity_ver_mapa);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.mapViewMap);
         mapFragment.getMapAsync(this);
     }
 
