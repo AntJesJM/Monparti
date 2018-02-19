@@ -44,12 +44,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".VerMapa"
-            android:label="@string/app_name" />
-        <activity
             android:name=".VerLugar"
             android:label="@string/title_activity_ver_lugar"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".VerMapa"></activity>
     </application>
 
 </manifest>
