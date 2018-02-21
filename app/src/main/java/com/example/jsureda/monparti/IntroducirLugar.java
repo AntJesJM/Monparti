@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.MapView;
 
@@ -111,9 +112,9 @@ public class IntroducirLugar extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = null;
                 int code = 0;
-                intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                 code = DESDE_GALERIA;
+                startActivityForResult(intent, code);
             }
         });
     }
@@ -122,34 +123,40 @@ public class IntroducirLugar extends AppCompatActivity {
         nombre = (EditText) findViewById(R.id.txtNombreAned);
         descripcion = (EditText) findViewById(R.id.txtDescAned);
         categorias = (Spinner) findViewById(R.id.spnCatAned);
-        apertura= (EditText) findViewById(R.id.txtAbreAned);
-        cierre= (EditText) findViewById(R.id.txtCierraAned);
+        apertura = (EditText) findViewById(R.id.txtAbreAned);
+        cierre = (EditText) findViewById(R.id.txtCierraAned);
         barra = (RatingBar) findViewById(R.id.barraNotaAned);
-        guardar = (ImageButton)findViewById(R.id.iBtnGuardar);
-        galeria = (ImageButton)findViewById(R.id.iBtnGaleria);
-        camara = (ImageButton)findViewById(R.id.iBtnCamara);
-
+        guardar = (ImageButton) findViewById(R.id.iBtnGuardar);
+        galeria = (ImageButton) findViewById(R.id.iBtnGaleria);
+        camara = (ImageButton) findViewById(R.id.iBtnCamara);
 
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         Bitmap imagen = null;
-
-        if (requestCode == DESDE_CAMARA) {
+        if (requestCode == DESDE_CAMARA && resultCode == RESULT_OK && data != null) {
             imagen = (Bitmap) data.getParcelableExtra("data");
         }
 
-        if (requestCode == DESDE_GALERIA) {
+       else if (requestCode == DESDE_GALERIA && resultCode == RESULT_OK && data != null) {
             Uri rutaImagen = data.getData();
             try {
                 imagen = BitmapFactory.decodeStream(new BufferedInputStream(getContentResolver().openInputStream(rutaImagen)));
-            } catch (FileNotFoundException e) { }
+            } catch (FileNotFoundException e) {
+            }
         }
-
+        else{Toast toast = Toast.makeText(IntroducirLugar.this, "No hay fotos", Toast.LENGTH_LONG);}
         ImageView iv = (ImageView) findViewById(R.id.imgAned);
         iv.setImageBitmap(imagen);
+
+
+
+
+
+
     }
 
 }
