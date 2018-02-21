@@ -17,27 +17,30 @@ public class LugarDBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE "+ EstructuraLugares.EntradaLugares.NOMBRE_TABLA+" ("
-                + EstructuraLugares.EntradaLugares._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + EstructuraLugares.EntradaLugares.ID+" TEXT NOT NULL,"
-                + EstructuraLugares.EntradaLugares.NOMBRE+"TEXT NOT NULL,"
-                + EstructuraLugares.EntradaLugares.DESC+" TEXT NOT NULL,"
-                + EstructuraLugares.EntradaLugares.CATEGORIA+" TEXT NOT NULL,"
-                + EstructuraLugares.EntradaLugares.VALORACION+" TEXT NOT NULL,"
-                + EstructuraLugares.EntradaLugares.LONGITUD+" TEXT NOT NULL,"
-                + EstructuraLugares.EntradaLugares.LATITUD+" TEXT NOT NULL,"
-                + EstructuraLugares.EntradaLugares.IMAGEN+" TEXT,"
-                +"UNIQUE ("+ EstructuraLugares.EntradaLugares.ID+"))"
+        sqLiteDatabase.execSQL("CREATE TABLE "+ TablaLugares.Columna.NOMBRE_TABLA+" ("
+                + TablaLugares.Columna._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + TablaLugares.Columna.ID+" TEXT NOT NULL,"
+                + TablaLugares.Columna.NOMBRE+"TEXT NOT NULL,"
+                + TablaLugares.Columna.DESC+" TEXT NOT NULL,"
+                + TablaLugares.Columna.CATEGORIA+" TEXT NOT NULL,"
+                + TablaLugares.Columna.VALORACION+" TEXT NOT NULL,"
+                + TablaLugares.Columna.LONGITUD+" TEXT NOT NULL,"
+                + TablaLugares.Columna.LATITUD+" TEXT NOT NULL,"
+                + TablaLugares.Columna.IMAGEN+" TEXT,"
+                +"UNIQUE ("+ TablaLugares.Columna.ID+"))"
         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL("drop table if exists lugar");
+
+        sqLiteDatabase.execSQL("create table lugar(TablaLugares.Columna. integer primary key, nombre text, ciudad text, numero integer)");
 
     }
 
     public long guardarLugar(Lugar lugar){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        return sqLiteDatabase.insert(EstructuraLugares.EntradaLugares.NOMBRE_TABLA,null,lugar.toContentValues());
+        return sqLiteDatabase.insert(TablaLugares.Columna.NOMBRE_TABLA,null,lugar.toContentValues());
     }
 }

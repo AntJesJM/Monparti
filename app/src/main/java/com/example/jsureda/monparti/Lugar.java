@@ -58,13 +58,13 @@ public class Lugar {
     }
     public ContentValues toContentValues(){
         ContentValues valores = new ContentValues();
-        valores.put(EstructuraLugares.EntradaLugares.ID,id);
-        valores.put(EstructuraLugares.EntradaLugares.NOMBRE,nombre);
-        valores.put(EstructuraLugares.EntradaLugares.CATEGORIA,categoria);
-        valores.put(EstructuraLugares.EntradaLugares.VALORACION,valoracion);
-        valores.put(EstructuraLugares.EntradaLugares.LONGITUD,longitud);
-        valores.put(EstructuraLugares.EntradaLugares.LATITUD,latitud);
-        valores.put(EstructuraLugares.EntradaLugares.IMAGEN,imagen);
+        valores.put(TablaLugares.Columna.ID,id);
+        valores.put(TablaLugares.Columna.NOMBRE,nombre);
+        valores.put(TablaLugares.Columna.CATEGORIA,categoria);
+        valores.put(TablaLugares.Columna.VALORACION,valoracion);
+        valores.put(TablaLugares.Columna.LONGITUD,longitud);
+        valores.put(TablaLugares.Columna.LATITUD,latitud);
+        valores.put(TablaLugares.Columna.IMAGEN,imagen);
 
         return valores;
     }

@@ -3,8 +3,8 @@ package com.example.jsureda.monparti;
 
 import android.provider.BaseColumns;
 
-public class EstructuraLugares {
-    public static abstract class EntradaLugares implements BaseColumns{
+public class TablaLugares {
+    public static abstract class Columna implements BaseColumns{
         public static final String NOMBRE_TABLA = "lugar";
         public static final String ID = "id";
         public static final String NOMBRE = "nombre";
