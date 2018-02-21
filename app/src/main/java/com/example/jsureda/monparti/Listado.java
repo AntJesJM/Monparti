@@ -10,6 +10,8 @@ import android.view.View;
 
 public class Listado extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,5 +31,14 @@ public class Listado extends AppCompatActivity {
             }
         });
     }
+
+
+    public void verMapa(View v){
+
+        Intent intent = new Intent(Listado.this,VerMapa.class);
+        startActivity(intent);
+    }
+
+
 
 }

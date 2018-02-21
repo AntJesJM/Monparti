@@ -26,4 +26,7 @@
     <string name="botonCancelar">Cancelar</string>
     <string name="title_activity_ver_lugar">VerLugar</string>
 
+    <!--- Ventana Listado-->
+    <string name="btnVerMapa">Ver en Mapa</string>
+
 </resources>

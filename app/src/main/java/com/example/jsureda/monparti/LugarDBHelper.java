@@ -22,6 +22,7 @@ public class LugarDBHelper extends SQLiteOpenHelper{
                 + TablaLugares.Columna.ID+" TEXT NOT NULL,"
                 + TablaLugares.Columna.NOMBRE+"TEXT NOT NULL,"
                 + TablaLugares.Columna.DESC+" TEXT NOT NULL,"
+                + TablaLugares.Columna.HOR+" TEXT NOT NULL,"
                 + TablaLugares.Columna.CATEGORIA+" TEXT NOT NULL,"
                 + TablaLugares.Columna.VALORACION+" TEXT NOT NULL,"
                 + TablaLugares.Columna.LONGITUD+" TEXT NOT NULL,"
@@ -35,7 +36,7 @@ public class LugarDBHelper extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("drop table if exists lugar");
 
-        sqLiteDatabase.execSQL("create table lugar(TablaLugares.Columna. integer primary key, nombre text, ciudad text, numero integer)");
+
 
     }
 
