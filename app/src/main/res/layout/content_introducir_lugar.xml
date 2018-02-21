@@ -10,13 +10,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="wrap_content"
         android:paddingBottom="70dp">
 
         <LinearLayout
             android:id="@+id/layAned"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="match_parent"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
@@ -103,6 +103,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:focusableInTouchMode="false"
                         android:inputType="time" />
 
                     <TextView
@@ -118,6 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:focusableInTouchMode="false"
                         android:inputType="time" />
 
                 </LinearLayout>
