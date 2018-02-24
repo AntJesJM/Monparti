@@ -72,7 +72,6 @@ public class Lugar {
         valores.put(TablaLugares.Columna.LONGITUD,longitud);
         valores.put(TablaLugares.Columna.LATITUD,latitud);
         valores.put(TablaLugares.Columna.IMAGEN,imagen);
-
         return valores;
     }
 }

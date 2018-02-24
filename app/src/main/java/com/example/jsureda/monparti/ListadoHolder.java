@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 public class ListadoHolder {
     TextView nombre;
+    TextView horario;
     RatingBar nota;
     ImageView foto;
 

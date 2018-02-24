@@ -1,6 +1,7 @@
 package com.example.jsureda.monparti;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -34,14 +35,24 @@ public class LugarDBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("drop table if exists lugar");
-
-
-
+       sqLiteDatabase.execSQL( "DROP TABLE IF EXISTS " + TablaLugares.Columna.NOMBRE_TABLA);
+        onCreate(sqLiteDatabase);
     }
 
-    public long guardarLugar(Lugar lugar){
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        onUpgrade(db, oldVersion, newVersion);
+    }
+
+    public long insertarLugar(Lugar lugar){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         return sqLiteDatabase.insert(TablaLugares.Columna.NOMBRE_TABLA,null,lugar.toContentValues());
+    }
+
+    public Cursor getAllLugares(){
+        return getReadableDatabase().query(TablaLugares.Columna.NOMBRE_TABLA,null,null,null,null,null,null);
+    }
+    public Cursor leerPorID(String LugarID){
+        Cursor c = getReadableDatabase().query(TablaLugares.Columna.NOMBRE_TABLA,null,TablaLugares.Columna.ID+ " LIKE ?",new String[]{LugarID},null,null,null);
+        return c;
     }
 }
