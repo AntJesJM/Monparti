@@ -21,19 +21,22 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.util.Calendar;
 
-public class IntroducirLugar extends AppCompatActivity {
+public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCallback {
     EditText nombre, descripcion, apertura, cierre;
     Spinner categorias;
     RatingBar barra;
-    MapView mapa;
     ImageButton guardar, galeria, camara;
-    ImageView imagen;
     private static int DESDE_CAMARA = 1;
     private static int DESDE_GALERIA = 2;
 
@@ -44,7 +47,9 @@ public class IntroducirLugar extends AppCompatActivity {
         inicializarUI();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapViewAned);
+        mapFragment.getMapAsync(this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btnConfirmar);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +123,12 @@ public class IntroducirLugar extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public void onMapReady(GoogleMap map) {
+        map.addMarker(new MarkerOptions()
+                .position(new LatLng(0, 0))
+                .title("Marker"));
+    }
     public void inicializarUI() {
         nombre = (EditText) findViewById(R.id.txtNombreAned);
         descripcion = (EditText) findViewById(R.id.txtDescAned);
