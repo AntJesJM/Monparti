@@ -13,12 +13,13 @@
     <!--- Añadir / Editar / Ver-->
     <string name="labelNombre">"Nom: "</string>
     <string name="labelDescripcion">"Description: "</string>
+    <string name="labelHorario">Calendrier: </string>
+    <string name="labelGuion"> - </string>
     <string name="labelNota">"Qualification: "</string>
     <string name="labelCategoria">"Catégorie: "</string>
-    <string name="botonGaleria">"Galerie: "</string>
-    <string name="botonGuardar">"Garder: "</string>
-
+    <string name="picker">Sélectionnez l´heure</string>
     <!--- Diálogo eliminar-->
     <string name="botonAceptar">Accepter</string>
     <string name="botonCancelar">Annuler</string>
+    <string name="btnVerMapa">Voir la carte</string>
 </resources>

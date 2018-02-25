@@ -16,8 +16,6 @@
     <string name="labelGuion"> - </string>
     <string name="labelNota">Rate: </string>
     <string name="labelCategoria">Category: </string>
-    <string name="botonGuardar">Save</string>
-    <string name="botonGaleria">Galery</string>
 
     <!--- Diálogo eliminar-->
     <string name="botonAceptar">Accept</string>
