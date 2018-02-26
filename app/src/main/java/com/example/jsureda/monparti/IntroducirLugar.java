@@ -246,7 +246,6 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, MY_PERMISSIONS_REQUEST_LOCATION);
         mGoogleMap = googleMap;
-        loc = mGoogleMap.getMyLocation();
     }
 
 }
