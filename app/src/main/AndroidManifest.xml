@@ -59,6 +59,7 @@
             android:name=".VerLugar"
             android:label="@string/title_activity_ver_lugar"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".VerMapa"></activity>
     </application>
 
 </manifest>
