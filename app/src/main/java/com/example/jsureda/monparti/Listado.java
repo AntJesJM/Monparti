@@ -7,10 +7,22 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ListView;
 
 public class Listado extends AppCompatActivity {
 
+    private LugarDBHelper mLugarDBHelper;
 
+    private ListView mLugarList;
+    private AdaptadorLugares mLugarAdapter;
+
+    public Listado(){
+
+    }
+
+    public static Listado newInstance(){
+        return new Listado();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +30,10 @@ public class Listado extends AppCompatActivity {
         setContentView(R.layout.activity_listado);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mLugarList = (ListView) findViewById(R.id.LVSel);
+        mLugarList.setAdapter(mLugarAdapter);
+        mLugarDBHelper = new LugarDBHelper(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btnAgregar);
         fab.setOnClickListener(new View.OnClickListener() {
