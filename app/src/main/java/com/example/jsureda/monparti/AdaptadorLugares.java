@@ -1,50 +1,50 @@
 package com.example.jsureda.monparti;
 
 
-import android.app.Activity;
+import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
-public class AdaptadorLugares extends ArrayAdapter{
-    Activity act;
-    Lugar[] info;
+public class AdaptadorLugares extends CursorAdapter {
 
-
-    AdaptadorLugares(Activity act,Lugar[] info){
-        super(act,R.layout.info_lugares);
-        this.act = act;
-        this.info = info;
-
+    public AdaptadorLugares(Context context, Cursor c) {
+        super(context, c, 0);
     }
 
-    public View getView(int position, View convertView, ViewGroup parent){
-        View item = convertView;
-        ListadoHolder holder;
+    public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        return inflater.inflate(R.layout.info_lugares, viewGroup, false);
+    }
 
-        if(item == null){
-            LayoutInflater inflater = act.getLayoutInflater();
+    public void bindView(View view, final Context context, Cursor cursor) {
+        TextView txtNombre = (TextView) view.findViewById(R.id.lblNombre);
+        TextView txtHorario = (TextView) view.findViewById(R.id.lblHorario);
+        final ImageView imgLugar = (ImageView) view.findViewById(R.id.imgLugar);
 
-            item = inflater.inflate(R.layout.info_lugares,null);
-            holder = new ListadoHolder();
-            holder.nombre = (TextView) item.findViewById(R.id.txtNombreAned);
-            holder.horario = (TextView) item.findViewById(R.id.txtAbreAned);
-            holder.nota = (RatingBar) item.findViewById(R.id.ratBarSel);
-            holder.foto = (ImageView) item.findViewById(R.id.imgLugar);
-        }else{
-            holder = (ListadoHolder) item.getTag();
-        }
-        holder.nombre.setText(info[position].getNombre());
-        holder.horario.setText(info[position].getHorario());
-        holder.nota.setRating(Float.parseFloat(info[position].getValoracion()));
-        //holder seteando valor ratingbar
-        holder.foto.setImageResource(Integer.parseInt(info[position].getImagen()));
-        return(item);
+        String nombre = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.NOMBRE));
+        String horario = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.HOR));
+        String lugarUri = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.IMAGEN));
+
+        txtNombre.setText(nombre);
+        txtHorario.setText(horario);
+        Glide.with(context).load(Uri.parse("file:///android_asset/" + lugarUri)).asBitmap().error(R.drawable.logo_monparti_borde).centerCrop().into(new BitmapImageViewTarget(imgLugar) {
+            protected void setResource(Bitmap resource){
+                RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                drawable.setCircular(true);
+                imgLugar.setImageDrawable(drawable);
+            }
+        });
     }
 }
