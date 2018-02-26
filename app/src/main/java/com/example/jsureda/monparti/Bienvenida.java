@@ -10,6 +10,7 @@ import android.view.WindowManager;
 public class Bienvenida extends Activity {
     private static int SPLASH_TIME_OUT = 1500;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Remove title bar

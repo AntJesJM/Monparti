@@ -26,5 +26,7 @@
 
     <!--- Ventana Listado-->
     <string name="btnVerMapa">Ver en Mapa</string>
+    <string name="text_location_permission">Conceder permisos de localización</string>
+    <string name="title_location_permission">Permisos de localización</string>
 
 </resources>
