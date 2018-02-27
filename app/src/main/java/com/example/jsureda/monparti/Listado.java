@@ -1,6 +1,8 @@
 package com.example.jsureda.monparti;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,16 +13,19 @@ import android.widget.ListView;
 
 public class Listado extends AppCompatActivity {
 
+    public static final int REQUEST_UPDATE_DELETE_LAWYER = 2;
+
     private LugarDBHelper mLugarDBHelper;
 
     private ListView mLugarList;
     private AdaptadorLugares mLugarAdapter;
 
-    public Listado(){
 
+    public Listado() {
+        // Required empty public constructor
     }
 
-    public static Listado newInstance(){
+    public static Listado newInstance() {
         return new Listado();
     }
 
@@ -32,8 +37,17 @@ public class Listado extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mLugarList = (ListView) findViewById(R.id.LVSel);
+        mLugarAdapter = new AdaptadorLugares(this,null);
+
         mLugarList.setAdapter(mLugarAdapter);
+
+        this.deleteDatabase(LugarDBHelper.DATABASE_NAME);
+
+        // Instancia de helper
         mLugarDBHelper = new LugarDBHelper(this);
+
+        // Carga de datos
+        cargarLugares();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btnAgregar);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,15 +60,34 @@ public class Listado extends AppCompatActivity {
                 finish();
             }
         });
+
+    }
+
+    private class CargarLugar extends AsyncTask<Void, Void, Cursor> {
+
+        @Override
+        protected Cursor doInBackground(Void... voids) {
+            return mLugarDBHelper.getAllLugares();
+        }
+
+        protected void onPostExecute(Cursor cursor) {
+            if (cursor != null && cursor.getCount() > 0) {
+                mLugarAdapter.swapCursor(cursor);
+            }
+        }
+    }
+
+    private void cargarLugares() {
+        new CargarLugar().execute();
     }
 
 
-    public void verMapa(View v){
+    public void verMapa(View v) {
 
-        Intent intent = new Intent(Listado.this,VerMapa.class);
+        Intent intent = new Intent(Listado.this, VerMapa.class);
         startActivity(intent);
     }
 
 
-
 }
+

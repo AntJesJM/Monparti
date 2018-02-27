@@ -2,6 +2,7 @@ package com.example.jsureda.monparti;
 
 
 import android.content.ContentValues;
+import android.database.Cursor;
 
 import java.util.UUID;
 
@@ -27,6 +28,30 @@ public class Lugar {
         this.latitud = latitud;
         this.imagen = imagen;
     }
+
+    public Lugar(Cursor cursor) {
+        id = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.ID));
+        nombre = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.NOMBRE));
+        descripcion = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.DESC));
+        horario = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.HOR));
+        categoria = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.CATEGORIA));
+        valoracion = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.VALORACION));
+        longitud= cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.LONGITUD));
+        latitud=cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.LATITUD));
+        imagen = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.IMAGEN));
+    }
+    public ContentValues toContentValues(){
+        ContentValues valores = new ContentValues();
+        valores.put(TablaLugares.Columna.ID,id);
+        valores.put(TablaLugares.Columna.NOMBRE,nombre);
+        valores.put(TablaLugares.Columna.CATEGORIA,categoria);
+        valores.put(TablaLugares.Columna.VALORACION,valoracion);
+        valores.put(TablaLugares.Columna.LONGITUD,longitud);
+        valores.put(TablaLugares.Columna.LATITUD,latitud);
+        valores.put(TablaLugares.Columna.IMAGEN,imagen);
+        return valores;
+
+    }
     public String getId(){
         return id;
     }
@@ -39,7 +64,7 @@ public class Lugar {
         return descripcion;
     }
 
-    public String getHorario(){
+    public String getHorario() {
         return horario;
     }
 
@@ -63,15 +88,9 @@ public class Lugar {
         return imagen;
     }
 
-    public ContentValues toContentValues(){
-        ContentValues valores = new ContentValues();
-        valores.put(TablaLugares.Columna.ID,id);
-        valores.put(TablaLugares.Columna.NOMBRE,nombre);
-        valores.put(TablaLugares.Columna.CATEGORIA,categoria);
-        valores.put(TablaLugares.Columna.VALORACION,valoracion);
-        valores.put(TablaLugares.Columna.LONGITUD,longitud);
-        valores.put(TablaLugares.Columna.LATITUD,latitud);
-        valores.put(TablaLugares.Columna.IMAGEN,imagen);
-        return valores;
-    }
+
+
+
+
+
 }

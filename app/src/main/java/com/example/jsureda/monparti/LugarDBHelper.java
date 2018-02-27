@@ -12,13 +12,14 @@ public class LugarDBHelper extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "Lugares.db";
 
     public LugarDBHelper(Context context){
+
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE "+ TablaLugares.Columna.NOMBRE_TABLA+" ("
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE "+ TablaLugares.Columna.NOMBRE_TABLA+" ("
                 + TablaLugares.Columna._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + TablaLugares.Columna.ID+" TEXT NOT NULL,"
                 + TablaLugares.Columna.NOMBRE+"TEXT NOT NULL,"
@@ -31,28 +32,71 @@ public class LugarDBHelper extends SQLiteOpenHelper{
                 + TablaLugares.Columna.IMAGEN+" TEXT,"
                 +"UNIQUE ("+ TablaLugares.Columna.ID+"))"
         );
+
+        mockData(db);
+
+    }
+
+    private void mockData(SQLiteDatabase database){
+        mockLugar(database, new Lugar("prueba","esto es una prueba","12:00-20:00","monumento","3.5","12","12","logo_monparti_borde.png"));
+    }
+    public long mockLugar(SQLiteDatabase db, Lugar lugar) {
+        return db.insert(
+                TablaLugares.Columna.NOMBRE_TABLA,
+                null,
+                lugar.toContentValues());
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-       sqLiteDatabase.execSQL( "DROP TABLE IF EXISTS " + TablaLugares.Columna.NOMBRE_TABLA);
-        onCreate(sqLiteDatabase);
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int antigua, int nueva) {
+
     }
 
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        onUpgrade(db, oldVersion, newVersion);
-    }
-
-    public long insertarLugar(Lugar lugar){
+    public long GuardarLugar(Lugar lugar) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        return sqLiteDatabase.insert(TablaLugares.Columna.NOMBRE_TABLA,null,lugar.toContentValues());
+
+        return sqLiteDatabase.insert(
+                TablaLugares.Columna.NOMBRE_TABLA,null,lugar.toContentValues());
     }
 
-    public Cursor getAllLugares(){
-        return getReadableDatabase().query(TablaLugares.Columna.NOMBRE_TABLA,null,null,null,null,null,null);
+    public Cursor getAllLugares() {
+        return getReadableDatabase()
+                .query(
+                        TablaLugares.Columna.NOMBRE_TABLA,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null);
     }
-    public Cursor leerPorID(String LugarID){
-        Cursor c = getReadableDatabase().query(TablaLugares.Columna.NOMBRE_TABLA,null,TablaLugares.Columna.ID+ " LIKE ?",new String[]{LugarID},null,null,null);
+
+    public Cursor getLugarporID(String lugarID) {
+        Cursor c = getReadableDatabase().query(
+                TablaLugares.Columna.NOMBRE_TABLA,
+                null,
+                TablaLugares.Columna.ID + " LIKE ?",
+                new String[]{lugarID},
+                null,
+                null,
+                null);
         return c;
     }
+
+    public int borrarLugar(String lugarID) {
+        return getWritableDatabase().delete(
+                TablaLugares.Columna.NOMBRE_TABLA,
+                TablaLugares.Columna.ID + " LIKE ?",
+                new String[]{lugarID});
+    }
+
+    public int updateLugar(Lugar lugar, String lugarID) {
+        return getWritableDatabase().update(
+                TablaLugares.Columna.NOMBRE_TABLA,
+                lugar.toContentValues(),
+                TablaLugares.Columna.ID + " LIKE ?",
+                new String[]{lugarID}
+        );
+    }
+
 }
