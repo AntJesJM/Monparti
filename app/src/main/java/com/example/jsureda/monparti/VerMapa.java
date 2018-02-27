@@ -128,8 +128,8 @@ public class VerMapa extends AppCompatActivity
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(this)
-                        .setTitle(R.string.TituloPermisosLoc)
-                        .setMessage(R.string.MensajePermisosLoc)
+                        .setTitle(R.string.tituloPermisosLoc)
+                        .setMessage(R.string.mensajePermisosLoc)
                         .setPositiveButton(R.string.botonAceptarPermisos, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

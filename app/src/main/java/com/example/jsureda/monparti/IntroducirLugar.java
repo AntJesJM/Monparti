@@ -20,8 +20,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,7 +29,6 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -39,10 +38,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
@@ -50,7 +47,7 @@ import java.util.Calendar;
 
 public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCallback {
     EditText nombre, descripcion, apertura, cierre;
-    Spinner categorias;
+    Spinner spnCategorias;
     RatingBar barra;
     ImageButton guardar, galeria, camara;
     private static int DESDE_CAMARA = 1;
@@ -60,7 +57,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 80;
     private static final int MY_PERMISSIONS_REQUEST_GALLERY = 90;
     private static final int MY_PERMISSIONS_CAMERA = 100;
-
+    ArrayAdapter<CharSequence> adapter;
     SupportMapFragment mapFrag;
     LocationRequest mLocationRequest;
     Location mLastLocation;
@@ -77,7 +74,9 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapViewAned);
         mapFragment.getMapAsync(this);
-
+        adapter = ArrayAdapter.createFromResource(this, R.array.spinnerCategoria, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnCategorias.setAdapter(adapter);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btnConfirmar);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +103,6 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
                         apertura.setText(selectedHour + ":" + selectedMinute);
                     }
                 }, hour, minute, true);//Yes 24 hour time
-                mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
 
             }
@@ -123,7 +121,6 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
                         cierre.setText(selectedHour + ":" + selectedMinute);
                     }
                 }, hour, minute, true);//Yes 24 hour time
-                mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
 
             }
@@ -169,7 +166,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onClick(View view) {
 
-                mLastLocation = mGoogleMap.getMyLocation();
+
                 if (mLastLocation != null) {
                     Toast.makeText(IntroducirLugar.this, "Long: " + mLastLocation.getLongitude() + ", Lat: " + mLastLocation.getLatitude(), Toast.LENGTH_LONG).show();
                 }
@@ -180,7 +177,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     public void inicializarUI() {
         nombre = (EditText) findViewById(R.id.txtNombreAned);
         descripcion = (EditText) findViewById(R.id.txtDescAned);
-        categorias = (Spinner) findViewById(R.id.spnCatAned);
+        spnCategorias = (Spinner) findViewById(R.id.spnCatAned);
         apertura = (EditText) findViewById(R.id.txtAbreAned);
         cierre = (EditText) findViewById(R.id.txtCierraAned);
         barra = (RatingBar) findViewById(R.id.barraNotaAned);
@@ -203,26 +200,25 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         @Override
         public void onLocationResult(LocationResult locationResult) {
             for (Location location : locationResult.getLocations()) {
-                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+               // Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
                 }
 
-                //Place current location marker
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title("Current Position");
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-
                 //move map camera
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+/*                //Place current location marker
+
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title(R.string.posicion);
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);*/
+
             }
         }
-
-        ;
 
     };
 
@@ -239,7 +235,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
             } catch (FileNotFoundException e) {
             }
         } else {
-            Toast toast = Toast.makeText(IntroducirLugar.this, "No hay fotos", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(IntroducirLugar.this, R.string.noFoto, Toast.LENGTH_LONG);
         }
         ImageView iv = (ImageView) findViewById(R.id.imgAned);
         iv.setImageBitmap(imagen);
@@ -266,7 +262,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
 
                         // permission denied, boo! Disable the
                         // functionality that depends on this permission.
-                        Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.pDenegado, Toast.LENGTH_LONG).show();
                     }
                     return;
                 }
@@ -301,8 +297,8 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(this)
-                        .setTitle("Location Permission Needed")
-                        .setMessage("This app needs the Location permission, please accept to use location functionality")
+                        .setTitle(R.string.tituloPermisosLoc)
+                        .setMessage(R.string.mensajePermisosLoc)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

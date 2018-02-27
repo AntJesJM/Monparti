@@ -3,7 +3,7 @@
 
     <!--- Listado -->
     <string-array name="spinnerCategoria">
-        <item>Seleccione una categoría</item>
+        <item>Seleccionar categoría</item>
         <item>Monumentos</item>
         <item>Parques</item>
         <item>Tiendas</item>
@@ -18,7 +18,8 @@
     <string name="labelNota">Nota: </string>
     <string name="labelCategoria">Categoría: </string>
     <string name="picker">Seleccionar hora</string>
-
+    <string name="posicion">Posición actual</string>
+    <string name="noFoto">No hay foto seleccionada</string>
     <!--- Diálogo eliminar-->
     <string name="botonAceptar">Aceptar</string>
     <string name="botonCancelar">Cancelar</string>
@@ -30,7 +31,8 @@
     <string name="title_location_permission">Permisos de localización</string>
 
     <!--- Pregunta de permisos-->
-    <string name="TituloPermisosLoc">Se necesitan permisos de geolocalización</string>
-    <string name="MensajePermisosLoc">Esta aplicación necesita permisos de geolocalización, por favor acepte esta petición para poder usar dicha funcionalidad</string>
+    <string name="tituloPermisosLoc">Se necesitan permisos de geolocalización</string>
+    <string name="mensajePermisosLoc">Esta aplicación necesita permisos de geolocalización, por favor acepte esta petición para poder usar dicha funcionalidad</string>
     <string name="botonAceptarPermisos">OK</string>
+    <string name="pDenegado">Permiso denegado</string>
 </resources>
