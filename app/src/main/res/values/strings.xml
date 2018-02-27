@@ -29,4 +29,8 @@
     <string name="text_location_permission">Conceder permisos de localización</string>
     <string name="title_location_permission">Permisos de localización</string>
 
+    <!--- Pregunta de permisos-->
+    <string name="TituloPermisosLoc">Se necesitan permisos de geolocalización</string>
+    <string name="MensajePermisosLoc">Esta aplicación necesita permisos de geolocalización, por favor acepte esta petición para poder usar dicha funcionalidad</string>
+    <string name="botonAceptarPermisos">OK</string>
 </resources>

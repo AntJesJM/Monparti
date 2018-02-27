@@ -3,88 +3,121 @@ package com.example.jsureda.monparti;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
+public class VerMapa extends AppCompatActivity
+        implements OnMapReadyCallback {
 
-public class VerMapa extends FragmentActivity implements  LocationListener {
-
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-
-    final String TAG = "GPS";
-    private final static int ALL_PERMISSIONS_RESULT = 101;
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
-
-    private GoogleMap mMap;
-    Location location;
-    LocationManager locationManager;
-    double latitude;
-    double longitude;
-    Criteria criteria;
-    String bestProvider;
-    boolean isGPS = false;
-    boolean isNetwork = false;
-    boolean canGetLocation = true;
-    ArrayList<String> permissions = new ArrayList<>();
-    ArrayList<String> permissionsToRequest;
-    ArrayList<String> permissionsRejected = new ArrayList<>();
+    GoogleMap mGoogleMap;
+    SupportMapFragment mapFrag;
+    LocationRequest mLocationRequest;
+    Location mLastLocation;
+    Marker mCurrLocationMarker;
+    FusedLocationProviderClient mFusedLocationClient;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        checkLocationPermission();
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_mapa);
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        isGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        isNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            return;
-        }
-        permissions.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
-        permissions.add(android.Manifest.permission.ACCESS_COARSE_LOCATION);
-        findUnAskedPermissions(permissions);
 
-        if (!isGPS && !isNetwork) {
-            Log.d(TAG, "Connection off");
-            getLastLocation();
-        } else {
-            Log.d(TAG, "Connection on");
-            // check permissions
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (permissionsToRequest.size() > 0) {
-                    requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]),
-                            ALL_PERMISSIONS_RESULT);
-                    Log.d(TAG, "Permission requests");
-                    canGetLocation = false;
-                }
-            }
 
-            // get location
-            getLocation();
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapViewMap);
+        mapFrag.getMapAsync(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        //stop location updates when Activity is no longer active
+        if (mFusedLocationClient != null) {
+            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
         }
     }
 
-    public boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
+    @Override
+    public void onMapReady(GoogleMap googleMap)
+    {
+        mGoogleMap=googleMap;
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(120000); // two minute interval
+        mLocationRequest.setFastestInterval(120000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                //Location Permission already granted
+                mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+                mGoogleMap.setMyLocationEnabled(true);
+            } else {
+                //Request Location Permission
+                checkLocationPermission();
+            }
+        }
+        else {
+            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+            mGoogleMap.setMyLocationEnabled(true);
+        }
+    }
+
+    LocationCallback mLocationCallback = new LocationCallback(){
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            for (Location location : locationResult.getLocations()) {
+                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                mLastLocation = location;
+                if (mCurrLocationMarker != null) {
+                    mCurrLocationMarker.remove();
+                }
+
+                //Place current location marker
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title("Current Position");
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+
+                //move map camera
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+            }
+        };
+
+    };
+
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    private void checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
@@ -95,15 +128,15 @@ public class VerMapa extends FragmentActivity implements  LocationListener {
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(this)
-                        .setTitle(R.string.title_location_permission)
-                        .setMessage(R.string.text_location_permission)
-                        .setPositiveButton(R.string.botonAceptar, new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.TituloPermisosLoc)
+                        .setMessage(R.string.MensajePermisosLoc)
+                        .setPositiveButton(R.string.botonAceptarPermisos, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //Prompt the user once explanation has been shown
                                 ActivityCompat.requestPermissions(VerMapa.this,
                                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                                        MY_PERMISSIONS_REQUEST_LOCATION );
                             }
                         })
                         .create()
@@ -114,11 +147,8 @@ public class VerMapa extends FragmentActivity implements  LocationListener {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
+                        MY_PERMISSIONS_REQUEST_LOCATION );
             }
-            return false;
-        } else {
-            return true;
         }
     }
 
@@ -137,126 +167,24 @@ public class VerMapa extends FragmentActivity implements  LocationListener {
                             android.Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
 
-                        //Request location updates:
-
+                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+                        mGoogleMap.setMyLocationEnabled(true);
                     }
 
                 } else {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-
+                    Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
                 }
                 return;
             }
 
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
-    }
-    private void findUnAskedPermissions(ArrayList<String> permissions) {
-    return;}
-
-
-
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    public void onMapReady(Location location) {
-        GoogleMap googleMap = null;
-        mMap = googleMap;
-
-        mMap.setMinZoomPreference(15.0f);
-        mMap.setMaxZoomPreference(20.0f);
-        LatLng positionInitial = new LatLng(location.getLongitude(), location.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(positionInitial).title("Aqui"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(positionInitial));
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.d(TAG, "onLocationChanged");
-        onMapReady(location);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        getLocation();
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        if (locationManager != null) {
-            locationManager.removeUpdates(this);
-        }
-    }
-    private void getLocation() {
-        try {
-            if (canGetLocation) {
-                Log.d(TAG, "Can get location");
-                if (isGPS) {
-                    // from GPS
-                    Log.d(TAG, "GPS on");
-                    locationManager.requestLocationUpdates(
-                            LocationManager.GPS_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-
-                    if (locationManager != null) {
-                        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        if (location != null)
-                            onMapReady(location);
-                    }
-                } else if (isNetwork) {
-                    // from Network Provider
-                    Log.d(TAG, "NETWORK_PROVIDER on");
-                    locationManager.requestLocationUpdates(
-                            LocationManager.NETWORK_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-
-                    if (locationManager != null) {
-                        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        if (location != null)
-                            onMapReady(location);
-                    }
-                } else {
-                    location.setLatitude(0);
-                    location.setLongitude(0);
-                    onMapReady(location);
-                }
-            } else {
-                Log.d(TAG, "Can't get location");
-            }
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }
-    private void getLastLocation() {
-        try {
-            Criteria criteria = new Criteria();
-            String provider = locationManager.getBestProvider(criteria, false);
-            Location location = locationManager.getLastKnownLocation(provider);
-            Log.d(TAG, provider);
-            Log.d(TAG, location == null ? "NO LastLocation" : location.toString());
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-
 
 
 }
