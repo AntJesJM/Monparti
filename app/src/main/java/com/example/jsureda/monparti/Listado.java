@@ -18,9 +18,12 @@ import android.widget.Spinner;
 
 public class Listado extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    public static final int REQUEST_UPDATE_DELETE_LUGAR = 2;
+
     public static Spinner spinner;
     private ListView mLugarList;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1 ;
+    public static final String EXTRA_LUGAR_ID = "extra_lugar_id";
     ArrayAdapter<CharSequence> adapter;
     private LugarCursorAdapter mLugarAdapter;
     private LugarDBHelper mLugarDbHelper;
@@ -33,7 +36,7 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        int permissionCheck = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        // int permissionCheck = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -65,18 +68,19 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
                 startActivityForResult(intent, 2);
             }
         });
-/*        mLugarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       mLugarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cursor currentItem = (Cursor) mLugarAdapter.getItem(i);
-                String currentLawyerId = currentItem.getString(
+                String currentLugarID = currentItem.getString(
                         currentItem.getColumnIndex(TablaLugares.Columna.ID));
 
-
+                mostrarLugar(currentLugarID);
             }
-        });*/
+        });
         spinner.setOnItemSelectedListener(this);
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
@@ -93,6 +97,12 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private void mostrarLugar(String LugarID) {
+        Intent intent = new Intent(getApplicationContext(), VerLugar.class);
+        intent.putExtra(EXTRA_LUGAR_ID, LugarID);
+        startActivityForResult(intent, REQUEST_UPDATE_DELETE_LUGAR);
     }
 
     public void verMapa(View v) {
