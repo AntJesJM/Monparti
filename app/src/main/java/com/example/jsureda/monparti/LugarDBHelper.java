@@ -5,50 +5,50 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.jsureda.monparti.TablaLugares.Columna;
 
-public class LugarDBHelper extends SQLiteOpenHelper{
+public class LugarDBHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Lugares.db";
 
-    public LugarDBHelper(Context context){
-
-        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+    public LugarDBHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "+ TablaLugares.Columna.NOMBRE_TABLA+" ("
-                + TablaLugares.Columna._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + TablaLugares.Columna.ID+" TEXT NOT NULL,"
-                + TablaLugares.Columna.NOMBRE+"TEXT NOT NULL,"
-                + TablaLugares.Columna.DESC+" TEXT NOT NULL,"
-                + TablaLugares.Columna.HOR+" TEXT NOT NULL,"
-                + TablaLugares.Columna.CATEGORIA+" TEXT NOT NULL,"
-                + TablaLugares.Columna.VALORACION+" TEXT NOT NULL,"
-                + TablaLugares.Columna.LONGITUD+" TEXT NOT NULL,"
-                + TablaLugares.Columna.LATITUD+" TEXT NOT NULL,"
-                + TablaLugares.Columna.IMAGEN+" TEXT,"
-                +"UNIQUE ("+ TablaLugares.Columna.ID+"))"
-        );
+        db.execSQL("CREATE TABLE " + Columna.TABLE_NAME + " ("
+                + Columna._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Columna.ID + " TEXT NOT NULL,"
+                + Columna.NOMBRE + " TEXT NOT NULL,"
+                + Columna.DESC + " TEXT,"
+                + Columna.HOR + " TEXT,"
+                + Columna.CATEGORIA + " TEXT,"
+                + Columna.VALORACION + " TEXT,"
+                + Columna.LONGITUD + " TEXT,"
+                + Columna.LATITUD + " TEXT,"
+                + Columna.IMAGEN + " TEXT,"
+                + "UNIQUE (" + Columna.ID + "))");
 
         mockData(db);
-
     }
 
-    private void mockData(SQLiteDatabase database){
-        mockLugar(database, new Lugar("prueba","esto es una prueba","12:00-20:00","monumento","3.5","12","12","logo_monparti_borde.png"));
+    private void mockData(SQLiteDatabase database) {
+        mockLugar(database, new Lugar("Plaza Pistacho", "Es un monumento", "12:00-20:00", "Monumentos", "4.5", "37.404661", "-5.994504", ""));
+        mockLugar(database, new Lugar("Tienda Pocha", "Es una tienda", "12:00-20:00", "Tiendas", "3.5", "37.404661", "-5.994504", ""));
+        mockLugar(database,new Lugar("Cojones","Puta Mierda","10:00","Parques","5","-7.404661","37.404661",""));
     }
+
     public long mockLugar(SQLiteDatabase db, Lugar lugar) {
         return db.insert(
-                TablaLugares.Columna.NOMBRE_TABLA,
+                Columna.TABLE_NAME,
                 null,
                 lugar.toContentValues());
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int antigua, int nueva) {
+    public void onUpgrade(SQLiteDatabase db, int antigua, int nueva) {
 
     }
 
@@ -56,24 +56,37 @@ public class LugarDBHelper extends SQLiteOpenHelper{
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
 
         return sqLiteDatabase.insert(
-                TablaLugares.Columna.NOMBRE_TABLA,null,lugar.toContentValues());
+                TablaLugares.Columna.TABLE_NAME, null, lugar.toContentValues());
     }
 
     public Cursor getAllLugares() {
-        return getReadableDatabase()
-                .query(
-                        TablaLugares.Columna.NOMBRE_TABLA,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null);
+
+        if (Listado.spinner.getSelectedItem().equals("Seleccionar categoria")) {
+            return getReadableDatabase()
+                    .query(
+                            TablaLugares.Columna.TABLE_NAME,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null);
+        } else {
+            String categoria = (String) Listado.spinner.getSelectedItem();
+            return getReadableDatabase().query(
+                    TablaLugares.Columna.TABLE_NAME,
+                    null,
+                    TablaLugares.Columna.CATEGORIA + " LIKE ?",
+                    new String[]{categoria},
+                    null,
+                    null,
+                    null);
+        }
     }
 
-    public Cursor getLugarporID(String lugarID) {
+    public Cursor getLugarPorID(String lugarID) {
         Cursor c = getReadableDatabase().query(
-                TablaLugares.Columna.NOMBRE_TABLA,
+                TablaLugares.Columna.TABLE_NAME,
                 null,
                 TablaLugares.Columna.ID + " LIKE ?",
                 new String[]{lugarID},
@@ -85,14 +98,14 @@ public class LugarDBHelper extends SQLiteOpenHelper{
 
     public int borrarLugar(String lugarID) {
         return getWritableDatabase().delete(
-                TablaLugares.Columna.NOMBRE_TABLA,
+                TablaLugares.Columna.TABLE_NAME,
                 TablaLugares.Columna.ID + " LIKE ?",
                 new String[]{lugarID});
     }
 
     public int updateLugar(Lugar lugar, String lugarID) {
         return getWritableDatabase().update(
-                TablaLugares.Columna.NOMBRE_TABLA,
+                TablaLugares.Columna.TABLE_NAME,
                 lugar.toContentValues(),
                 TablaLugares.Columna.ID + " LIKE ?",
                 new String[]{lugarID}

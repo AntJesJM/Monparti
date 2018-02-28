@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 
 public class TablaLugares {
     public static abstract class Columna implements BaseColumns{
-        public static final String NOMBRE_TABLA = "lugar";
+        public static final String TABLE_NAME = "lugar";
         public static final String ID = "id";
         public static final String NOMBRE = "nombre";
         public static final String DESC = "descripcion";

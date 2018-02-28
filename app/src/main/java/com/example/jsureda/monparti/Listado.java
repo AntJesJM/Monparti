@@ -1,33 +1,31 @@
 package com.example.jsureda.monparti;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
-public class Listado extends AppCompatActivity {
+public class Listado extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    public static final int REQUEST_UPDATE_DELETE_LAWYER = 2;
-
-    private LugarDBHelper mLugarDBHelper;
-
+    public static Spinner spinner;
     private ListView mLugarList;
-    private AdaptadorLugares mLugarAdapter;
+    private String busqueda[];
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1 ;
 
-
-    public Listado() {
-        // Required empty public constructor
-    }
-
-    public static Listado newInstance() {
-        return new Listado();
-    }
+    private LugarCursorAdapter mLugarAdapter;
+    private LugarDBHelper mLugarDbHelper;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,58 +34,101 @@ public class Listado extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mLugarList = (ListView) findViewById(R.id.LVSel);
-        mLugarAdapter = new AdaptadorLugares(this,null);
+        int permissionCheck = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
 
-        mLugarList.setAdapter(mLugarAdapter);
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-        this.deleteDatabase(LugarDBHelper.DATABASE_NAME);
+            } else {
 
-        // Instancia de helper
-        mLugarDBHelper = new LugarDBHelper(this);
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
 
-        // Carga de datos
-        cargarLugares();
+            }
+        }
+        busqueda = getResources().getStringArray(R.array.spinnerCategoria);
+        spinner = (Spinner) findViewById(R.id.spnCatSel);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_dropdown_item, busqueda);
+        spinner.setAdapter(spinnerArrayAdapter);
+        // Referencias UI
+        mLugarList = (ListView) findViewById(R.id.listSel);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btnAgregar);
+
+        fab = (FloatingActionButton) findViewById(R.id.btnAgregar);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                Intent homeIntent = new Intent(Listado.this, IntroducirLugar.class);
-                startActivity(homeIntent);
-                finish();
+                Intent intent = new Intent(getApplicationContext(), IntroducirLugar.class);
+                startActivityForResult(intent, 2);
             }
         });
+/*        mLugarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Cursor currentItem = (Cursor) mLugarAdapter.getItem(i);
+                String currentLawyerId = currentItem.getString(
+                        currentItem.getColumnIndex(TablaLugares.Columna.ID));
 
-    }
 
-    private class CargarLugar extends AsyncTask<Void, Void, Cursor> {
-
-        @Override
-        protected Cursor doInBackground(Void... voids) {
-            return mLugarDBHelper.getAllLugares();
-        }
-
-        protected void onPostExecute(Cursor cursor) {
-            if (cursor != null && cursor.getCount() > 0) {
-                mLugarAdapter.swapCursor(cursor);
             }
-        }
+        });*/
+        spinner.setOnItemSelectedListener(this);
     }
 
-    private void cargarLugares() {
-        new CargarLugar().execute();
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+        mLugarList.setAdapter(null);
+        mLugarAdapter = new LugarCursorAdapter(getApplicationContext(), null);
+        // Setup
+        mLugarList.setAdapter(mLugarAdapter);
+        // Instancia de helper
+        mLugarDbHelper = new LugarDBHelper(getApplicationContext());
+        // Carga de datos
+        cargarLugares();
     }
 
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 
     public void verMapa(View v) {
-
         Intent intent = new Intent(Listado.this, VerMapa.class);
         startActivity(intent);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        finish();
+        startActivity(getIntent());
+    }
+
+    private void cargarLugares() {
+        new LugarLoadTask().execute();
+    }
+    private class LugarLoadTask extends AsyncTask<Void, Void, Cursor> {
+
+        @Override
+        protected Cursor doInBackground(Void... voids) {
+            return mLugarDbHelper.getAllLugares();
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            if (cursor != null && cursor.getCount() > 0) {
+                mLugarAdapter.swapCursor(cursor);
+            } else {
+                // Mostrar empty state
+            }
+        }
+    }
 
 }
 

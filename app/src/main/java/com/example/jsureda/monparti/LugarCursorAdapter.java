@@ -1,12 +1,9 @@
 package com.example.jsureda.monparti;
 
-
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +11,11 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import java.io.File;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
+public class LugarCursorAdapter extends CursorAdapter {
 
-public class AdaptadorLugares extends CursorAdapter {
-
-    public AdaptadorLugares(Context context,Cursor c) {
+    public LugarCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
 
@@ -37,19 +32,41 @@ public class AdaptadorLugares extends CursorAdapter {
         TextView nombreTxt = (TextView) view.findViewById(R.id.lblNombre);
         TextView horarioTxt = (TextView) view.findViewById(R.id.lblHorario);
         RatingBar rate = (RatingBar) view.findViewById(R.id.ratBarSel);
-        final ImageView imagen = (ImageView) view.findViewById(R.id.imgLugar);
+        ImageView imagen = (ImageView) view.findViewById(R.id.imgLugar);
 
         // Get valores.
         String name = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.NOMBRE));
         String horario = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.HOR));
-        String nota = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.VALORACION));
+        Float nota = Float.parseFloat(cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.VALORACION)));
         String imag = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.IMAGEN));
 
         // Setup.
         nombreTxt.setText(name);
         horarioTxt.setText(horario);
-        rate.setRating(Float.parseFloat(nota));
-        Glide
+        rate.setRating(nota);
+        Bitmap icon=null;
+        if(imag.equals(""))
+        {
+            icon = BitmapFactory.decodeResource(context.getResources(),
+                    R.drawable.sinimagen);
+        }
+        else if(imag.startsWith("/"))
+        {
+            File imgFile = new File(imag);
+            if(imgFile.exists()) {
+                icon=BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            }
+            else {
+                icon = BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.sinimagen);
+            }
+        }
+        else
+        {
+            icon=StringBitmap.StringToBitMap(imag);
+        }
+        imagen.setImageBitmap(icon);
+       /* Glide
                 .with(context)
                 .load(Uri.parse("file:///android_asset/" + imag))
                 .asBitmap()
@@ -63,7 +80,7 @@ public class AdaptadorLugares extends CursorAdapter {
                         drawable.setCircular(true);
                         imagen.setImageDrawable(drawable);
                     }
-                });
+                });*/
 
     }
 
