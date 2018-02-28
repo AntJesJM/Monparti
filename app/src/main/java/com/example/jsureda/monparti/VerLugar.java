@@ -1,6 +1,7 @@
 package com.example.jsureda.monparti;
 
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,13 +26,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 
-public class VerLugar extends AppCompatActivity {
+public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
 
     GoogleMap mMap;
     private String mLugarID;
@@ -75,6 +78,13 @@ public class VerLugar extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        MapFragment mMapFragment = MapFragment.newInstance();
+        FragmentTransaction fragmentTransaction =
+                getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.mapViewAned, mMapFragment);
+        fragmentTransaction.commit();
+        mMapFragment.getMapAsync(this);
     }
 
     public void onMapReady(GoogleMap googleMap) {
