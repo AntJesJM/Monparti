@@ -52,7 +52,7 @@ public class LugarDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public long GuardarLugar(Lugar lugar) {
+    public long guardarLugar(Lugar lugar) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
 
         return sqLiteDatabase.insert(

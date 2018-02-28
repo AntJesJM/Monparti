@@ -20,9 +20,8 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
 
     public static Spinner spinner;
     private ListView mLugarList;
-    private String busqueda[];
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1 ;
-
+    ArrayAdapter<CharSequence> adapter;
     private LugarCursorAdapter mLugarAdapter;
     private LugarDBHelper mLugarDbHelper;
     private FloatingActionButton fab;
@@ -50,12 +49,10 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
 
             }
         }
-        busqueda = getResources().getStringArray(R.array.spinnerCategoria);
         spinner = (Spinner) findViewById(R.id.spnCatSel);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_spinner_dropdown_item, busqueda);
-        spinner.setAdapter(spinnerArrayAdapter);
-        // Referencias UI
+        adapter = ArrayAdapter.createFromResource(this, R.array.spinnerCategoria, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
         mLugarList = (ListView) findViewById(R.id.listSel);
 
 
@@ -63,8 +60,7 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
                 Intent intent = new Intent(getApplicationContext(), IntroducirLugar.class);
                 startActivityForResult(intent, 2);
             }

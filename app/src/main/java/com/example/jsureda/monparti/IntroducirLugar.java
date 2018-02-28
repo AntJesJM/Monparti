@@ -6,20 +6,21 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -41,14 +43,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Calendar;
 
 public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCallback {
     EditText nombre, descripcion, apertura, cierre;
     Spinner spnCategorias;
     RatingBar barra;
+    ImageView iv;
     ImageButton guardar, galeria, camara;
     private static int DESDE_CAMARA = 1;
     private static int DESDE_GALERIA = 2;
@@ -63,6 +65,10 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     Location mLastLocation;
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
+    boolean vacio = false;
+    double latitud, longitud;
+    private LugarDBHelper mLugarDbHelper;
+    static String imagen = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +76,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         setContentView(R.layout.activity_introducir_lugar);
         inicializarUI();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mLugarDbHelper = new LugarDBHelper(getApplicationContext());
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapViewAned);
@@ -81,12 +88,14 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                Intent homeIntent = new Intent(IntroducirLugar.this, Listado.class);
+                introLugar();
+                if (vacio == false) {
 
-                startActivity(homeIntent);
-                finish();
+                    Intent homeIntent = new Intent(IntroducirLugar.this, Listado.class);
+                    startActivity(homeIntent);
+                    finish();
+                }
+
             }
         });
 
@@ -166,7 +175,8 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onClick(View view) {
 
-
+                latitud = mLastLocation.getLatitude();
+                longitud = mLastLocation.getLongitude();
                 if (mLastLocation != null) {
                     Toast.makeText(IntroducirLugar.this, "Long: " + mLastLocation.getLongitude() + ", Lat: " + mLastLocation.getLatitude(), Toast.LENGTH_LONG).show();
                 }
@@ -184,6 +194,52 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         guardar = (ImageButton) findViewById(R.id.iBtnGuardar);
         galeria = (ImageButton) findViewById(R.id.iBtnGaleria);
         camara = (ImageButton) findViewById(R.id.iBtnCamara);
+        iv = (ImageView) findViewById(R.id.imgAned);
+    }
+
+    private boolean camposVacios(String dato) {
+        Toast.makeText(getApplicationContext(),
+                "Rellene el campo " + dato, Toast.LENGTH_SHORT).show();
+        vacio = true;
+        return vacio;
+    }
+
+    private void introLugar() {
+        vacio = false;
+        String name, desc, open, close, horario, categ, nota, lat, lon;
+        name = nombre.getText().toString();
+        desc = descripcion.getText().toString();
+        open = apertura.getText().toString();
+        close = cierre.getText().toString();
+        categ = String.valueOf(spnCategorias.getSelectedItem());
+        nota = String.valueOf(barra.getRating());
+        lat = String.valueOf(latitud);
+        lon = String.valueOf(longitud);
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(desc) || TextUtils.isEmpty(open) ||
+                TextUtils.isEmpty(close) || TextUtils.isEmpty(categ) || TextUtils.isEmpty(nota) || TextUtils.isEmpty(lat) || TextUtils.isEmpty(lon)) {
+            Toast.makeText(getApplicationContext(),
+                    "Debe rellenar todos los campos", Toast.LENGTH_SHORT).show();
+            vacio = true;
+        }
+        if (vacio) {
+            return;
+        }
+        horario = open + "-" + close;
+        Lugar lugar = new Lugar(name, desc, horario, categ, nota, lon, lat, imagen);
+
+        new AddLugarTask().execute(lugar);
+
+    }
+
+    private class AddLugarTask extends AsyncTask<Lugar, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Lugar... lugar) {
+
+            return mLugarDbHelper.guardarLugar(lugar[0]) > 0;
+
+
+        }
     }
 
     @Override
@@ -200,7 +256,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         @Override
         public void onLocationResult(LocationResult locationResult) {
             for (Location location : locationResult.getLocations()) {
-               // Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                // Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
                 mLastLocation = location;
                 if (mCurrLocationMarker != null) {
                     mCurrLocationMarker.remove();
@@ -228,16 +284,27 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         Bitmap imagen = null;
         if (requestCode == DESDE_CAMARA && resultCode == RESULT_OK && data != null) {
             imagen = (Bitmap) data.getParcelableExtra("data");
+            IntroducirLugar.imagen = StringBitmap.BitMapToString(imagen);
+
         } else if (requestCode == DESDE_GALERIA && resultCode == RESULT_OK && data != null) {
             Uri rutaImagen = data.getData();
             try {
-                imagen = BitmapFactory.decodeStream(new BufferedInputStream(getContentResolver().openInputStream(rutaImagen)));
-            } catch (FileNotFoundException e) {
+                imagen = MediaStore.Images.Media.getBitmap(getContentResolver(), rutaImagen);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            String[] projection = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(rutaImagen, projection, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(projection[0]);
+            String picturePath = cursor.getString(columnIndex); // returns null
+            IntroducirLugar.imagen = picturePath;
+            cursor.close();
+
         } else {
             Toast toast = Toast.makeText(IntroducirLugar.this, R.string.noFoto, Toast.LENGTH_LONG);
         }
-        ImageView iv = (ImageView) findViewById(R.id.imgAned);
+
         iv.setImageBitmap(imagen);
     }
 
