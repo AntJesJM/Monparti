@@ -11,6 +11,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,7 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 public class VerMapa extends AppCompatActivity
-        implements OnMapReadyCallback {
+        implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
 
     GoogleMap mGoogleMap;
     SupportMapFragment mapFrag;
@@ -35,6 +39,8 @@ public class VerMapa extends AppCompatActivity
     Location mLastLocation;
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
+    Spinner spnCategorias;
+    ArrayAdapter<CharSequence> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,6 +54,11 @@ public class VerMapa extends AppCompatActivity
 
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapViewMap);
         mapFrag.getMapAsync(this);
+        spnCategorias = (Spinner) findViewById(R.id.spnCatMap);
+        adapter = ArrayAdapter.createFromResource(this, R.array.spinnerCategoria, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnCategorias.setAdapter(adapter);
+        spnCategorias.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -188,4 +199,13 @@ public class VerMapa extends AppCompatActivity
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
