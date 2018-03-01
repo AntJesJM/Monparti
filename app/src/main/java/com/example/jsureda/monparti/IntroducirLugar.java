@@ -11,13 +11,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -42,11 +41,8 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,9 +51,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -71,14 +67,10 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     ImageButton guardar, galeria, camara;
     private static int DESDE_CAMARA = 1;
     private static int DESDE_GALERIA = 2;
-    GoogleMap mGoogleMap;
     private static final int MY_PERMISSIONS_REQUEST_GALLERY = 90;
     private static final int MY_PERMISSIONS_CAMERA = 100;
-    Location mLastLocation;
-    Marker mCurrLocationMarker;
-    FusedLocationProviderClient mFusedLocationClient;
     boolean vacio = false;
-    private LugarDBHelper mLugarDbHelper;
+    private LugarDBHelper mLugarDBHelper;
     static String imagen = "";
     GoogleMap mMap;
     private double latitud=0;
@@ -90,6 +82,10 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     GoogleApiClient gac;
     LocationRequest locationRequest;
     boolean editable;
+    String mLugarID;
+    ArrayAdapter<CharSequence> adapter;
+    SupportMapFragment mapFragment;
+    private String foto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,10 +93,16 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         inicializarUI();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         editable = getIntent().getBooleanExtra("editando",false);
+        mLugarID=getIntent().getStringExtra("EXTRA_LUGAR_ID");
+
+        spnCategorias = (Spinner) findViewById(R.id.spnCatAned);
+        adapter = ArrayAdapter.createFromResource(this, R.array.spinnerCategoria, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnCategorias.setAdapter(adapter);
+
         isGooglePlayServicesAvailable();
         if(!isLocationEnabled())
             showAlert();
-
         locationRequest = new LocationRequest();
         locationRequest.setInterval(UPDATE_INTERVAL);
         locationRequest.setFastestInterval(FASTEST_INTERVAL);
@@ -110,23 +112,21 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-        mLugarDbHelper = new LugarDBHelper(getApplicationContext());
+        mLugarDBHelper = new LugarDBHelper(getApplicationContext());
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapViewAned);
+        mapFragment.getMapAsync(this);
 
-        MapFragment mMapFragment = MapFragment.newInstance();
-        FragmentTransaction fragmentTransaction =
-                getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.mapViewAned, mMapFragment);
-        fragmentTransaction.commit();
-        mMapFragment.getMapAsync(this);
-
-
+        if(editable==true)
+        {
+            cargarLugar();
+        }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btnConfirmar);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 introLugar();
                 if (vacio == false) {
-
                     Intent homeIntent = new Intent(IntroducirLugar.this, Listado.class);
                     startActivity(homeIntent);
                     finish();
@@ -210,15 +210,87 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Toast.makeText(IntroducirLugar.this, "Long: " + longitud + ", Lat: " + latitud, Toast.LENGTH_LONG).show();
-                }
+                Toast.makeText(IntroducirLugar.this, "Long: " + longitud + ", Lat: " + latitud, Toast.LENGTH_LONG).show();
+            }
 
         });
     }
+
     @SuppressLint("MissingPermission")
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+
     }
+    private int getIndex(Spinner spinner, String myString)
+    {
+        int index = 0;
+
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+    private void mostrarLugar(Lugar lugar) {
+
+        latitud=Double.parseDouble(lugar.getLatitud());
+        longitud=Double.parseDouble(lugar.getLongitud());
+        nombre.setText(lugar.getNombre());
+        descripcion.setText(lugar.getDescripcion());
+        String horario[]=lugar.getHorario().split("-");
+        apertura.setText(horario[0]);
+        cierre.setText(horario[1]);
+        spnCategorias.setSelection(getIndex(spnCategorias, lugar.getCategoria()));
+        barra.setRating(Float.parseFloat(lugar.getValoracion()));
+        foto=lugar.getImagen();
+        Bitmap icon=null;
+        if(foto.equals(""))
+        {
+            icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                    R.drawable.sinimagen);
+        }
+        else if(foto.startsWith("/"))
+        {
+            File imgFile = new File(foto);
+            if(imgFile.exists()) {
+                icon=BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            }
+            else {
+                icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                        R.drawable.sinimagen);
+            }
+        }
+        else
+        {
+            icon=StringBitmap.StringToBitMap(foto);
+        }
+        iv.setImageBitmap(icon);
+    }
+    private class GetLugarByIDTask extends AsyncTask<Void, Void, Cursor> {
+
+        @Override
+        protected Cursor doInBackground(Void... voids) {
+            return mLugarDBHelper.getLugarPorID(String.valueOf(mLugarID));
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            if (cursor != null && cursor.moveToLast()) {
+                mostrarLugar(new Lugar(cursor));
+            } else {
+                showLoadError();
+            }
+        }
+
+    }
+    private void cargarLugar() {
+        new GetLugarByIDTask().execute();
+    }
+
+
     protected void onStart() {
         gac.connect();
         super.onStart();
@@ -235,6 +307,10 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         if (location != null) {
             updateUI(location);
         }
+    }
+    private void showLoadError() {
+        Toast.makeText(getApplicationContext(),
+                "Error al cargar información", Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -385,32 +461,10 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     private class AddLugarTask extends AsyncTask<Lugar, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Lugar... lugar) {
-            return mLugarDbHelper.guardarLugar(lugar[0]) > 0;
+            return mLugarDBHelper.guardarLugar(lugar[0]) > 0;
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mFusedLocationClient != null) {
-            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-        }
-    }
-
-    LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            for (Location location : locationResult.getLocations()) {
-                mLastLocation = location;
-                if (mCurrLocationMarker != null) {
-                    mCurrLocationMarker.remove();
-                }
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-            }
-        }
-
-    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

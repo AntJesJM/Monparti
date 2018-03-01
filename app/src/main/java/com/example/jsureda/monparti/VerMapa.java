@@ -118,7 +118,7 @@ public class VerMapa extends AppCompatActivity
                 markerOptions.position(latLng);
                 markerOptions.title("Current Position");*/
                //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-                //mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+                //mCurrLocationMarker = mMap.addMarker(markerOptions);
 
                 //move map camera
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
