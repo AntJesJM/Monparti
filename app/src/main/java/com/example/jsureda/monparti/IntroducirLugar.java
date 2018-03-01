@@ -3,7 +3,6 @@ package com.example.jsureda.monparti;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,7 +45,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -57,7 +55,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCallback,LocationListener,
+public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCallback, LocationListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     EditText nombre, descripcion, apertura, cierre;
@@ -73,8 +71,8 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     private LugarDBHelper mLugarDBHelper;
     static String imagen = "";
     GoogleMap mMap;
-    private double latitud=0;
-    private double longitud=0;
+    private double latitud = 0;
+    private double longitud = 0;
     final String TAG = "GPS";
     private long UPDATE_INTERVAL = 2 * 1000;
     private long FASTEST_INTERVAL = 2000;
@@ -86,14 +84,15 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     ArrayAdapter<CharSequence> adapter;
     SupportMapFragment mapFragment;
     private String foto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introducir_lugar);
         inicializarUI();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        editable = getIntent().getBooleanExtra("editando",false);
-        mLugarID=getIntent().getStringExtra("EXTRA_LUGAR_ID");
+        editable = getIntent().getBooleanExtra("editando", false);
+        mLugarID = getIntent().getStringExtra("extra_lugar_id");
 
         spnCategorias = (Spinner) findViewById(R.id.spnCatAned);
         adapter = ArrayAdapter.createFromResource(this, R.array.spinnerCategoria, android.R.layout.simple_spinner_item);
@@ -101,7 +100,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         spnCategorias.setAdapter(adapter);
 
         isGooglePlayServicesAvailable();
-        if(!isLocationEnabled())
+        if (!isLocationEnabled())
             showAlert();
         locationRequest = new LocationRequest();
         locationRequest.setInterval(UPDATE_INTERVAL);
@@ -117,8 +116,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
                 .findFragmentById(R.id.mapViewAned);
         mapFragment.getMapAsync(this);
 
-        if(editable==true)
-        {
+        if (editable == true) {
             cargarLugar();
         }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btnConfirmar);
@@ -145,7 +143,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
                 mTimePicker = new TimePickerDialog(IntroducirLugar.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        apertura.setText(selectedHour + ":" + selectedMinute);
+                        apertura.setText(String.format("%02d:%02d", selectedHour, selectedMinute));
                     }
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.show();
@@ -219,56 +217,39 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     @SuppressLint("MissingPermission")
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-
     }
-    private int getIndex(Spinner spinner, String myString)
-    {
-        int index = 0;
 
-        for (int i=0;i<spinner.getCount();i++){
-            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
-    private void mostrarLugar(Lugar lugar) {
+    private void rellenarLugar(Lugar lugar) {
 
-        latitud=Double.parseDouble(lugar.getLatitud());
-        longitud=Double.parseDouble(lugar.getLongitud());
+        latitud = Double.parseDouble(lugar.getLatitud());
+        longitud = Double.parseDouble(lugar.getLongitud());
         nombre.setText(lugar.getNombre());
         descripcion.setText(lugar.getDescripcion());
-        String horario[]=lugar.getHorario().split("-");
+        String horario[] = lugar.getHorario().split("-");
         apertura.setText(horario[0]);
         cierre.setText(horario[1]);
         spnCategorias.setSelection(getIndex(spnCategorias, lugar.getCategoria()));
         barra.setRating(Float.parseFloat(lugar.getValoracion()));
-        foto=lugar.getImagen();
-        Bitmap icon=null;
-        if(foto.equals(""))
-        {
+        foto = lugar.getImagen();
+
+        Bitmap icon = null;
+        if (foto.equals("")) {
             icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),
                     R.drawable.sinimagen);
-        }
-        else if(foto.startsWith("/"))
-        {
+        } else if (foto.startsWith("/")) {
             File imgFile = new File(foto);
-            if(imgFile.exists()) {
-                icon=BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            }
-            else {
+            if (imgFile.exists()) {
+                icon = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            } else {
                 icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),
                         R.drawable.sinimagen);
             }
-        }
-        else
-        {
-            icon=StringBitmap.StringToBitMap(foto);
+        } else {
+            icon = StringBitmap.StringToBitMap(foto);
         }
         iv.setImageBitmap(icon);
     }
+
     private class GetLugarByIDTask extends AsyncTask<Void, Void, Cursor> {
 
         @Override
@@ -279,154 +260,15 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         @Override
         protected void onPostExecute(Cursor cursor) {
             if (cursor != null && cursor.moveToLast()) {
-                mostrarLugar(new Lugar(cursor));
+                rellenarLugar(new Lugar(cursor));
             } else {
                 showLoadError();
             }
         }
-
     }
+
     private void cargarLugar() {
         new GetLugarByIDTask().execute();
-    }
-
-
-    protected void onStart() {
-        gac.connect();
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        gac.disconnect();
-        super.onStop();
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        if (location != null) {
-            updateUI(location);
-        }
-    }
-    private void showLoadError() {
-        Toast.makeText(getApplicationContext(),
-                "Error al cargar información", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(IntroducirLugar.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-
-            return;
-        }
-        Log.d(TAG, "onConnected");
-        Location ll = LocationServices.FusedLocationApi.getLastLocation(gac);
-        Log.d(TAG, "LastLocation: " + (ll == null ? "NO LastLocation" : ll.toString()));
-        LocationServices.FusedLocationApi.requestLocationUpdates(gac, locationRequest, this);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    try{
-                        LocationServices.FusedLocationApi.requestLocationUpdates(gac, locationRequest, this);
-                    } catch (SecurityException e) {
-                        Toast.makeText(IntroducirLugar.this, "SecurityException:\n" + e.toString(), Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(IntroducirLugar.this, "Permission denied!", Toast.LENGTH_LONG).show();
-                }
-                return;
-            }
-        }
-    }
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(IntroducirLugar.this, "onConnectionFailed: \n" + connectionResult.toString(),
-                Toast.LENGTH_LONG).show();
-        Log.d("DDD", connectionResult.toString());
-    }
-
-    private void updateUI(Location loc) {
-        Log.d(TAG, "updateUI");
-        latitud=loc.getLatitude();
-        longitud=loc.getLongitude();
-        mMap.clear();
-        LatLng rest = new LatLng(latitud, longitud);
-        mMap.addMarker(new MarkerOptions().position(rest).title("Lugar seleccionado"));
-        CameraPosition cameraPosition = CameraPosition.builder()
-                .target(rest)
-                .zoom(15)
-                .build();
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-    }
-    private boolean isLocationEnabled() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
-
-    private boolean isGooglePlayServicesAvailable() {
-        final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.d(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        Log.d(TAG, "This device is supported.");
-        return true;
-    }
-    private void showAlert() {
-        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Enable Location")
-                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
-                        "use this app")
-                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-
-                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(myIntent);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                    }
-                });
-        dialog.show();
-    }
-
-    public void inicializarUI() {
-        nombre = (EditText) findViewById(R.id.txtNombreAned);
-        descripcion = (EditText) findViewById(R.id.txtDescAned);
-        spnCategorias = (Spinner) findViewById(R.id.spnCatAned);
-        apertura = (EditText) findViewById(R.id.txtAbreAned);
-        cierre = (EditText) findViewById(R.id.txtCierraAned);
-        barra = (RatingBar) findViewById(R.id.barraNotaAned);
-        guardar = (ImageButton) findViewById(R.id.iBtnGuardar);
-        galeria = (ImageButton) findViewById(R.id.iBtnGaleria);
-        camara = (ImageButton) findViewById(R.id.iBtnCamara);
-        iv = (ImageView) findViewById(R.id.imgAned);
     }
 
     private void introLugar() {
@@ -451,13 +293,14 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         }
         horario = open + "-" + close;
         Lugar lugar = new Lugar(name, desc, horario, categ, nota, lon, lat, imagen);
-
-        new AddLugarTask().execute(lugar);
+        if (editable == true) {
+            new EditLugarTask().execute(lugar);
+        } else {
+            new AddLugarTask().execute(lugar);
+        }
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-    }
+
     private class AddLugarTask extends AsyncTask<Lugar, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Lugar... lugar) {
@@ -465,10 +308,71 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
+    private class EditLugarTask extends AsyncTask<Lugar, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Lugar... lugar) {
+            return mLugarDBHelper.updateLugar(lugar[0], mLugarID) > 0;
+
+        }
+
+    }
+
+    protected void onStart() {
+        gac.connect();
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        gac.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (location != null) {
+            updateUI(location);
+        }
+    }
+
+    private void showLoadError() {
+        Toast.makeText(getApplicationContext(),
+                "Error al cargar información", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(IntroducirLugar.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+            return;
+        }
+        Log.d(TAG, "onConnected");
+        Location ll = LocationServices.FusedLocationApi.getLastLocation(gac);
+        Log.d(TAG, "LastLocation: " + (ll == null ? "NO LastLocation" : ll.toString()));
+        LocationServices.FusedLocationApi.requestLocationUpdates(gac, locationRequest, this);
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(IntroducirLugar.this, "onConnectionFailed: \n" + connectionResult.toString(),
+                Toast.LENGTH_LONG).show();
+        Log.d("DDD", connectionResult.toString());
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         Bitmap imagen = null;
         if (requestCode == DESDE_CAMARA && resultCode == RESULT_OK && data != null) {
             imagen = (Bitmap) data.getParcelableExtra("data");
@@ -492,6 +396,112 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
             Toast toast = Toast.makeText(IntroducirLugar.this, R.string.noFoto, Toast.LENGTH_LONG);
         }
         iv.setImageBitmap(imagen);
+    }
+
+    private void updateUI(Location loc) {
+        Log.d(TAG, "updateUI");
+        latitud = loc.getLatitude();
+        longitud = loc.getLongitude();
+        mMap.clear();
+        LatLng rest = new LatLng(latitud, longitud);
+        mMap.addMarker(new MarkerOptions().position(rest).title("Lugar seleccionado"));
+        CameraPosition cameraPosition = CameraPosition.builder()
+                .target(rest)
+                .zoom(15)
+                .build();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+    public void inicializarUI() {
+        nombre = (EditText) findViewById(R.id.txtNombreAned);
+        descripcion = (EditText) findViewById(R.id.txtDescAned);
+        spnCategorias = (Spinner) findViewById(R.id.spnCatAned);
+        apertura = (EditText) findViewById(R.id.txtAbreAned);
+        cierre = (EditText) findViewById(R.id.txtCierraAned);
+        barra = (RatingBar) findViewById(R.id.barraNotaAned);
+        guardar = (ImageButton) findViewById(R.id.iBtnGuardar);
+        galeria = (ImageButton) findViewById(R.id.iBtnGaleria);
+        camara = (ImageButton) findViewById(R.id.iBtnCamara);
+        iv = (ImageView) findViewById(R.id.imgAned);
+    }
+
+    private int getIndex(Spinner spinner, String myString) {
+        int index = 0;
+
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    private boolean isGooglePlayServicesAvailable() {
+        final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.d(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        Log.d(TAG, "This device is supported.");
+        return true;
+    }
+
+    private void showAlert() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Enable Location")
+                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
+                        "use this app")
+                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    }
+                });
+        dialog.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    try {
+                        LocationServices.FusedLocationApi.requestLocationUpdates(gac, locationRequest, this);
+                    } catch (SecurityException e) {
+                        Toast.makeText(IntroducirLugar.this, "SecurityException:\n" + e.toString(), Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(IntroducirLugar.this, "Permission denied!", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+        }
     }
 
     private void askForPermission(String permission, Integer requestCode) {
