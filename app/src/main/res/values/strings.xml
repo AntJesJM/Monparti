@@ -39,4 +39,8 @@
     <string name="lugar_eliminar_articulo">Eliminar Lugar</string>
     <string name="lugar_eliminar_mensaje">¿Está seguro que desea eliminar el lugar?</string>
     <string name="lugar_eliminar_confirmacion">Lugar Borrado</string>
+
+    <string name="gps_network_not_enabled">gps_network_not_enabled</string>
+    <string name="open_location_settings">open_location_settings</string>
+    <string name="cancel">cancel</string>
 </resources>
