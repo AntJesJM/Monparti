@@ -12,13 +12,10 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -46,7 +43,11 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
     private String longitud;
     private String latitud;
     private String foto;
-    RatingBar bar;
+    private RatingBar bar;
+
+    private ImageButton editar;
+    private ImageButton borrar;
+
     private LocationListener listener;
     private LocationManager locationManager;
 
@@ -64,9 +65,12 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
         mCategoria=(TextView)findViewById(R.id.lblCatDB);
         mDescripcion=(TextView) findViewById(R.id.lblDescDB);
         bar=(RatingBar)findViewById(R.id.barraNotaAned);
+        mHorario = (TextView) findViewById(R.id.lblHorDB2);
         img=(ImageView)findViewById(R.id.imgAned);
         mLugarID = getIntent().getStringExtra(Listado.EXTRA_LUGAR_ID);
         mLugarDBHelper=new LugarDBHelper(getApplicationContext());
+
+
         cargarLugar();
 
 
@@ -78,6 +82,45 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
                 startActivityForResult(intent, 2);
             }
         });
+
+        editar = (ImageButton) findViewById(R.id.iBtnEdit);
+        editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarEditar();
+            }
+        });
+
+        borrar = (ImageButton) findViewById(R.id.iBtnDel);
+        borrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder dialogEliminar = new AlertDialog.Builder(VerLugar.this);
+
+                dialogEliminar.setIcon(android.R.drawable.ic_dialog_alert);
+                dialogEliminar.setTitle(getResources().getString(R.string.lugar_eliminar_articulo));
+                dialogEliminar.setMessage(getResources().getString(R.string.lugar_eliminar_mensaje));
+                dialogEliminar.setCancelable(false);
+
+                dialogEliminar.setPositiveButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int boton) {
+
+                        new DeleteLugarTask().execute();
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                });
+
+                dialogEliminar.setNegativeButton(android.R.string.no, null);
+
+                dialogEliminar.show();
+            }
+        });
+
+
+
+
 
         MapFragment mMapFragment = MapFragment.newInstance();
         FragmentTransaction fragmentTransaction =
@@ -114,6 +157,7 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
         mNombre.setText(lugar.getNombre());
         mCategoria.setText(lugar.getCategoria());
         mDescripcion.setText(lugar.getDescripcion());
+        mHorario.setText(lugar.getHorario());
         bar.setRating(Float.parseFloat(lugar.getValoracion()));
         foto=lugar.getImagen();
         Bitmap icon=null;
@@ -163,45 +207,7 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.iBtnEdit:
-                mostrarEditar();
-                break;
-            case R.id.iBtnDel:
-                /*
-		 * Borramos el registro con confirmación
-		 */
-                AlertDialog.Builder dialogEliminar = new AlertDialog.Builder(this);
 
-                dialogEliminar.setIcon(android.R.drawable.ic_dialog_alert);
-                dialogEliminar.setTitle(getResources().getString(R.string.lugar_eliminar_articulo));
-                dialogEliminar.setMessage(getResources().getString(R.string.lugar_eliminar_mensaje));
-                dialogEliminar.setCancelable(false);
-
-                dialogEliminar.setPositiveButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int boton) {
-
-				/*
-				 * Devolvemos el control
-				 *
-				 */
-                        new DeleteLugarTask().execute();
-                        setResult(RESULT_OK);
-                        finish();
-                    }
-                });
-
-                dialogEliminar.setNegativeButton(android.R.string.no, null);
-
-                dialogEliminar.show();
-
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void mostrarEditar() {
         Intent intent = new Intent(getApplicationContext(),IntroducirLugar.class);
