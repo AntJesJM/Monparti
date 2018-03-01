@@ -45,6 +45,7 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
     private String foto;
     private RatingBar bar;
 
+
     private ImageButton editar;
     private ImageButton borrar;
 
@@ -88,6 +89,7 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 mostrarEditar();
+
             }
         });
 
@@ -212,6 +214,7 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
     private void mostrarEditar() {
         Intent intent = new Intent(getApplicationContext(),IntroducirLugar.class);
         intent.putExtra(EXTRA_LUGAR_ID, mLugarID);
+        intent.putExtra("editando",true);
         startActivityForResult(intent, Listado.REQUEST_UPDATE_DELETE_LUGAR);
     }
 
