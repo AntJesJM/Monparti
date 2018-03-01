@@ -152,7 +152,7 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
         new GetLugarByIDTask().execute();
     }
 
-    private void showRestaurante(Lugar lugar) {
+    private void mostrarLugar(Lugar lugar) {
 
         latitud=lugar.getLatitud();
         longitud=lugar.getLongitud();
@@ -201,7 +201,7 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
         @Override
         protected void onPostExecute(Cursor cursor) {
             if (cursor != null && cursor.moveToLast()) {
-                showRestaurante(new Lugar(cursor));
+                mostrarLugar(new Lugar(cursor));
             } else {
                 showLoadError();
             }
