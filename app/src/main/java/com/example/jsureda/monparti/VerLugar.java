@@ -86,7 +86,7 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
         editar = (ImageButton) findViewById(R.id.iBtnEdit);
         editar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 mostrarEditar();
             }
         });
@@ -94,7 +94,7 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
         borrar = (ImageButton) findViewById(R.id.iBtnDel);
         borrar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 AlertDialog.Builder dialogEliminar = new AlertDialog.Builder(VerLugar.this);
 
                 dialogEliminar.setIcon(android.R.drawable.ic_dialog_alert);
