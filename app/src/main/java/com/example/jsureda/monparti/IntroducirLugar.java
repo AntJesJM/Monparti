@@ -84,6 +84,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     ArrayAdapter<CharSequence> adapter;
     SupportMapFragment mapFragment;
     private String foto;
+    Location mLoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +209,8 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                latitud = mLoc.getLatitude();
+                longitud = mLoc.getLongitude();
                 Toast.makeText(IntroducirLugar.this, "Long: " + longitud + ", Lat: " + latitud, Toast.LENGTH_LONG).show();
             }
 
@@ -283,7 +286,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         lat = String.valueOf(latitud);
         lon = String.valueOf(longitud);
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(desc) || TextUtils.isEmpty(open) ||
-                TextUtils.isEmpty(close) || TextUtils.isEmpty(categ) || TextUtils.isEmpty(nota) || TextUtils.isEmpty(lat) || TextUtils.isEmpty(lon)) {
+                TextUtils.isEmpty(close) || spnCategorias.getSelectedItemPosition()==0 || TextUtils.isEmpty(nota) || latitud==0 || longitud==0) {
             Toast.makeText(getApplicationContext(),
                     "Debe rellenar todos los campos", Toast.LENGTH_SHORT).show();
             vacio = true;
@@ -399,11 +402,11 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void updateUI(Location loc) {
+        mLoc=loc;
         Log.d(TAG, "updateUI");
-        latitud = loc.getLatitude();
-        longitud = loc.getLongitude();
+
         mMap.clear();
-        LatLng rest = new LatLng(latitud, longitud);
+        LatLng rest = new LatLng(mLoc.getLatitude(), mLoc.getLongitude());
         mMap.addMarker(new MarkerOptions().position(rest).title("Lugar seleccionado"));
         CameraPosition cameraPosition = CameraPosition.builder()
                 .target(rest)
