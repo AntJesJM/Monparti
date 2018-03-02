@@ -13,7 +13,6 @@
     <string name="labelNombre">Name: </string>
     <string name="labelDescripcion">Description: </string>
     <string name="labelHorario">Schedule: </string>
-    <string name="labelGuion"> - </string>
     <string name="labelNota">Rate: </string>
     <string name="labelCategoria">Category: </string>
 

@@ -14,7 +14,7 @@
     <string name="labelNombre">Nombre: </string>
     <string name="labelDescripcion">Descripción: </string>
     <string name="labelHorario">Horario: </string>
-    <string name="labelGuion"> - </string>
+    <string name="labelGuion" translatable="false"> - </string>
     <string name="labelNota">Nota: </string>
     <string name="labelCategoria">Categoría: </string>
     <string name="picker">Seleccionar hora</string>
@@ -33,7 +33,7 @@
     <!--- Pregunta de permisos-->
     <string name="tituloPermisosLoc">Se necesitan permisos de geolocalización</string>
     <string name="mensajePermisosLoc">Esta aplicación necesita permisos de geolocalización, por favor acepte esta petición para poder usar dicha funcionalidad</string>
-    <string name="botonAceptarPermisos">OK</string>
+    <string name="botonAceptarPermisos" translatable="false">OK</string>
     <string name="pDenegado">Permiso denegado</string>
 
     <!--- Conexión-->

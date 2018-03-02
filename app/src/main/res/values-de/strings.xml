@@ -1,2 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="botonMapa">Karte</string>
+    <string name="labelNombre">Name:</string>
+    <string name="labelDescripcion">Beschreibung:</string>
+    <string name="labelHorario">Kalender</string>
+    <string name="labelNota">Prädikat:</string>
+    <string name="labelCategoria">Kategorie:</string>
+    <string name="picker">Wählen Sie Stunde</string>
+    <string name="botonAceptar">Akzeptieren</string>
+    <string name="botonCancelar">Tilgen</string>
+    <string name="btnVerMapa">Siehe die Karte</string>
+    <string name="title_activity_ver_lugar">SieheOrt</string>
+    <string name="posicion">Aktuelle Position</string>
+    <string name="noFoto">Kein Bild ausgewählt</string>
+    <string name="text_location_permission">Erteilen Sie Standortberechtigungen</string>
+    <string name="title_location_permission">Standortberechtigungen</string>
+    <string name="tituloPermisosLoc">Geolocation-Genehmigungen werden benötigt</string>
+    <string name="mensajePermisosLoc">Diese Anwendung benötigt eine Geolocation-Berechtigung. Bitte akzeptieren Sie diese Anfrage, um dieses Funktionalität zu nutzen</string>
+    <string name="pDenegado">Berechtigung verweigert</string>
+    <string name="rellenarCampos">Sie müssen alle Felder ausfüllen</string>
+    <string name="conexFallida">Fehlgeschlagene Verbindung:</string>
+    <string name="errorCargarInfo">Fehler beim Laden der Informationen</string>
+    <string name="marcaLugar">Angegebener Ort</string>
+    <string name="dialogLocat">Standort aktivieren</string>
+    <string name="locationSetting">Ihre Standorteinstellungen sind deaktiviert</string>
+    <string name="locationSetting2">Bitte, aktiviert, um MonParti zu verwenden</string>
+    <string name="botonLocSet">Standorteinstellungen</string>
+    <string name="secExcep">Sicherheitsausnahme</string>
+    <string name="eliminarLugar">Ort löschen</string>
+    <string name="mensajeEliminar">Möchtest du den Ort wirklich löschen?</string>
+    <string name="lugarBorradoConfirm">Ort gelöscht</string>
+    <string name="botonCancel">Tilgen</string>
+    <string name="errorEliminar">Fehler beim Löschen des Orts</string>
+</resources>

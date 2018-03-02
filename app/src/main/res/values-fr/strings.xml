@@ -14,7 +14,6 @@
     <string name="labelNombre">"Nom: "</string>
     <string name="labelDescripcion">"Description: "</string>
     <string name="labelHorario">Calendrier: </string>
-    <string name="labelGuion"> - </string>
     <string name="labelNota">"Qualification: "</string>
     <string name="labelCategoria">"Catégorie: "</string>
     <string name="picker">Sélectionnez l´heure</string>
