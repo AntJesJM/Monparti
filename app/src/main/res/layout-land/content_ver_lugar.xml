@@ -37,6 +37,7 @@
 
                 <TextView
                     android:id="@+id/lblNombreDB"
+                    style="@style/Label"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
@@ -61,6 +62,7 @@
 
                 <TextView
                     android:id="@+id/lblDescDB"
+                    style="@style/Label"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
@@ -84,6 +86,7 @@
 
                 <TextView
                     android:id="@+id/lblCatDB"
+                    style="@style/Label"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
@@ -107,6 +110,7 @@
 
                 <TextView
                     android:id="@+id/lblHorDB2"
+                    style="@style/Label"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
@@ -120,7 +124,7 @@
 
                 <TextView
                     android:id="@+id/lblNotaAned"
-                    android:layout_width="250dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
