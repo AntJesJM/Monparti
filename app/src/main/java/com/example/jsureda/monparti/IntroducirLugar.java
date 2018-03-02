@@ -26,7 +26,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -92,6 +91,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         setContentView(R.layout.activity_introducir_lugar);
         inicializarUI();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         editable = getIntent().getBooleanExtra("editando", false);
         mLugarID = getIntent().getStringExtra("extra_lugar_id");
 
@@ -162,7 +162,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
                 mTimePicker = new TimePickerDialog(IntroducirLugar.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        cierre.setText(selectedHour + ":" + selectedMinute);
+                        cierre.setText(String.format("%02d:%02d", selectedHour, selectedMinute));
                     }
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.show();
@@ -288,7 +288,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(desc) || TextUtils.isEmpty(open) ||
                 TextUtils.isEmpty(close) || spnCategorias.getSelectedItemPosition()==0 || TextUtils.isEmpty(nota) || latitud==0 || longitud==0) {
             Toast.makeText(getApplicationContext(),
-                    "Debe rellenar todos los campos", Toast.LENGTH_SHORT).show();
+                    R.string.rellenarCampos, Toast.LENGTH_SHORT).show();
             vacio = true;
         }
         if (vacio) {
@@ -341,7 +341,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
 
     private void showLoadError() {
         Toast.makeText(getApplicationContext(),
-                "Error al cargar información", Toast.LENGTH_SHORT).show();
+                R.string.errorCargarInfo, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -356,23 +356,19 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
 
             return;
         }
-        Log.d(TAG, "onConnected");
         Location ll = LocationServices.FusedLocationApi.getLastLocation(gac);
-        Log.d(TAG, "LastLocation: " + (ll == null ? "NO LastLocation" : ll.toString()));
         LocationServices.FusedLocationApi.requestLocationUpdates(gac, locationRequest, this);
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(IntroducirLugar.this, "onConnectionFailed: \n" + connectionResult.toString(),
+        Toast.makeText(IntroducirLugar.this, R.string.conexFallida +"\n" + connectionResult.toString(),
                 Toast.LENGTH_LONG).show();
-        Log.d("DDD", connectionResult.toString());
     }
 
     @Override
     public void onConnectionSuspended(int i) {
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -403,8 +399,6 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
 
     private void updateUI(Location loc) {
         mLoc=loc;
-        Log.d(TAG, "updateUI");
-
         mMap.clear();
         LatLng rest = new LatLng(mLoc.getLatitude(), mLoc.getLongitude());
         mMap.addMarker(new MarkerOptions().position(rest).title("Lugar seleccionado"));
@@ -455,21 +449,18 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
                 apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
                         .show();
             } else {
-                Log.d(TAG, "This device is not supported.");
                 finish();
             }
             return false;
         }
-        Log.d(TAG, "This device is supported.");
         return true;
     }
 
     private void showAlert() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Enable Location")
-                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
-                        "use this app")
-                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+        dialog.setTitle(R.string.dialogLocat)
+                .setMessage(R.string.locationSetting+"\n"+R.string.locationSetting2)
+                .setPositiveButton(R.string.botonLocSet, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
 
@@ -477,7 +468,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
                         startActivity(myIntent);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.botonCancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                     }
@@ -497,10 +488,10 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
                     try {
                         LocationServices.FusedLocationApi.requestLocationUpdates(gac, locationRequest, this);
                     } catch (SecurityException e) {
-                        Toast.makeText(IntroducirLugar.this, "SecurityException:\n" + e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(IntroducirLugar.this, R.string.secExcep+"\n" + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(IntroducirLugar.this, "Permission denied!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(IntroducirLugar.this, R.string.pDenegado, Toast.LENGTH_LONG).show();
                 }
                 return;
             }

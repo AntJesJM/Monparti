@@ -44,14 +44,10 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
     private String latitud;
     private String foto;
     private RatingBar bar;
-
-
     private ImageButton editar;
     private ImageButton borrar;
-
     private LocationListener listener;
     private LocationManager locationManager;
-
     private ImageView img;
     private LugarDBHelper mLugarDBHelper;
 
@@ -62,18 +58,16 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mNombre=(TextView)findViewById(R.id.lblNombreDB);
-        mCategoria=(TextView)findViewById(R.id.lblCatDB);
-        mDescripcion=(TextView) findViewById(R.id.lblDescDB);
-        bar=(RatingBar)findViewById(R.id.barraNotaAned);
+        mNombre = (TextView) findViewById(R.id.lblNombreDB);
+        mCategoria = (TextView) findViewById(R.id.lblCatDB);
+        mDescripcion = (TextView) findViewById(R.id.lblDescDB);
+        bar = (RatingBar) findViewById(R.id.barraNotaVer);
         mHorario = (TextView) findViewById(R.id.lblHorDB2);
-        img=(ImageView)findViewById(R.id.imgAned);
+        img = (ImageView) findViewById(R.id.imgVer);
         mLugarID = getIntent().getStringExtra(Listado.EXTRA_LUGAR_ID);
-        mLugarDBHelper=new LugarDBHelper(getApplicationContext());
-
+        mLugarDBHelper = new LugarDBHelper(getApplicationContext());
 
         cargarLugar();
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -100,8 +94,8 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
                 AlertDialog.Builder dialogEliminar = new AlertDialog.Builder(VerLugar.this);
 
                 dialogEliminar.setIcon(android.R.drawable.ic_dialog_alert);
-                dialogEliminar.setTitle(getResources().getString(R.string.lugar_eliminar_articulo));
-                dialogEliminar.setMessage(getResources().getString(R.string.lugar_eliminar_mensaje));
+                dialogEliminar.setTitle(getResources().getString(R.string.eliminarLugar));
+                dialogEliminar.setMessage(getResources().getString(R.string.mensajeEliminar));
                 dialogEliminar.setCancelable(false);
 
                 dialogEliminar.setPositiveButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
@@ -120,14 +114,10 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
             }
         });
 
-
-
-
-
         MapFragment mMapFragment = MapFragment.newInstance();
         FragmentTransaction fragmentTransaction =
                 getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.mapViewAned, mMapFragment);
+        fragmentTransaction.add(R.id.mapViewVer, mMapFragment);
         fragmentTransaction.commit();
         mMapFragment.getMapAsync(this);
     }
@@ -141,7 +131,6 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
                 .zoom(11)
                 .build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -154,41 +143,35 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
 
     private void mostrarLugar(Lugar lugar) {
 
-        latitud=lugar.getLatitud();
-        longitud=lugar.getLongitud();
+        latitud = lugar.getLatitud();
+        longitud = lugar.getLongitud();
         mNombre.setText(lugar.getNombre());
         mCategoria.setText(lugar.getCategoria());
         mDescripcion.setText(lugar.getDescripcion());
         mHorario.setText(lugar.getHorario());
         bar.setRating(Float.parseFloat(lugar.getValoracion()));
-        foto=lugar.getImagen();
-        Bitmap icon=null;
-        if(foto.equals(""))
-        {
+        foto = lugar.getImagen();
+        Bitmap icon = null;
+        if (foto.equals("")) {
             icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),
                     R.drawable.sinimagen);
-        }
-        else if(foto.startsWith("/"))
-        {
+        } else if (foto.startsWith("/")) {
             File imgFile = new File(foto);
-            if(imgFile.exists()) {
-                icon=BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            }
-            else {
+            if (imgFile.exists()) {
+                icon = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            } else {
                 icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),
                         R.drawable.sinimagen);
             }
-        }
-        else
-        {
-            icon=StringBitmap.StringToBitMap(foto);
+        } else {
+            icon = StringBitmap.StringToBitMap(foto);
         }
         img.setImageBitmap(icon);
     }
 
     private void showLoadError() {
         Toast.makeText(getApplicationContext(),
-                "Error al cargar información", Toast.LENGTH_SHORT).show();
+                R.string.errorCargarInfo, Toast.LENGTH_SHORT).show();
     }
 
     private class GetLugarByIDTask extends AsyncTask<Void, Void, Cursor> {
@@ -206,15 +189,12 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
                 showLoadError();
             }
         }
-
     }
 
-
-
     private void mostrarEditar() {
-        Intent intent = new Intent(getApplicationContext(),IntroducirLugar.class);
+        Intent intent = new Intent(getApplicationContext(), IntroducirLugar.class);
         intent.putExtra(EXTRA_LUGAR_ID, mLugarID);
-        intent.putExtra("editando",true);
+        intent.putExtra("editando", true);
         startActivityForResult(intent, Listado.REQUEST_UPDATE_DELETE_LUGAR);
     }
 
@@ -236,12 +216,13 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
         if (!requery) {
             showDeleteError();
         }
-        Toast.makeText(getApplicationContext(),R.string.lugar_eliminar_confirmacion, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.lugarBorradoConfirm, Toast.LENGTH_SHORT).show();
         finish();
     }
+
     private void showDeleteError() {
         Toast.makeText(getApplicationContext(),
-                "Error al eliminar lugar", Toast.LENGTH_SHORT).show();
+                R.string.eliminarLugar, Toast.LENGTH_SHORT).show();
     }
 
 }

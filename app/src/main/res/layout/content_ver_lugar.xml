@@ -15,34 +15,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
             android:orientation="vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
             tools:layout_editor_absoluteX="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="30dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/lblNombreANed"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/labelNombre"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:id="@+id/lblNombreVer"
+                    style="@style/Label"
+                    android:text="@string/labelNombre" />
 
                 <TextView
                     android:id="@+id/lblNombreDB"
                     style="@style/Label"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_width="match_parent" />
 
 
             </LinearLayout>
@@ -50,100 +41,67 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="30dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/lblDescAned"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/labelDescripcion"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:id="@+id/lblDescVer"
+                    style="@style/Label"
+                    android:text="@string/labelDescripcion" />
 
                 <TextView
                     android:id="@+id/lblDescDB"
                     style="@style/Label"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_width="match_parent" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="30dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/lblCatAned"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/labelCategoria"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:id="@+id/lblCatVer"
+                    style="@style/Label"
+                    android:text="@string/labelCategoria" />
 
                 <TextView
                     android:id="@+id/lblCatDB"
                     style="@style/Label"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_width="match_parent" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="30dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/lblHorAned2"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/labelHorario"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:id="@+id/lblHorVer"
+                    style="@style/Label"
+                    android:text="@string/labelHorario" />
 
                 <TextView
                     android:id="@+id/lblHorDB2"
                     style="@style/Label"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+ />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="30dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/lblNotaAned"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/labelNota"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:id="@+id/lblNotaVer"
+                    style="@style/Label"
+                    android:text="@string/labelNota" />
 
                 <RatingBar
-                    android:id="@+id/barraNotaAned"
+                    android:id="@+id/barraNotaVer"
                     style="@style/Widget.AppCompat.RatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -157,14 +115,14 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="200dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
                 <com.google.android.gms.maps.MapView
-                    android:id="@+id/mapViewAned"
+                    android:id="@+id/mapViewVer"
                     android:layout_width="match_parent"
-                    android:layout_height="271dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1" />
 
             </LinearLayout>
@@ -176,11 +134,11 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/imgAned"
+                    android:id="@+id/imgVer"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="200dp"
                     android:layout_weight="1"
-                    app:srcCompat="@mipmap/ic_launcher" />
+                    app:srcCompat="@drawable/sinimagen" />
 
             </LinearLayout>
 

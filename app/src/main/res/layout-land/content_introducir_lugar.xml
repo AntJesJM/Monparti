@@ -21,8 +21,6 @@
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
             tools:layout_editor_absoluteX="0dp">
 
             <LinearLayout

@@ -61,7 +61,7 @@ public class LugarDBHelper extends SQLiteOpenHelper {
 
     public Cursor getAllLugares() {
 
-        if (Listado.spinner.getSelectedItem().equals("Seleccionar categoría")) {
+        if (Listado.spinner.getSelectedItem().equals("Elegir categoría")) {
             return getReadableDatabase()
                     .query(
                             TablaLugares.Columna.TABLE_NAME,

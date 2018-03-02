@@ -3,7 +3,7 @@
 
     <!--- Listado -->
     <string-array name="spinnerCategoria">
-        <item>Seleccionar categoría</item>
+        <item>Elegir categoría</item>
         <item>Monumentos</item>
         <item>Parques</item>
         <item>Tiendas</item>
@@ -36,11 +36,23 @@
     <string name="botonAceptarPermisos">OK</string>
     <string name="pDenegado">Permiso denegado</string>
 
-    <string name="lugar_eliminar_articulo">Eliminar Lugar</string>
-    <string name="lugar_eliminar_mensaje">¿Está seguro que desea eliminar el lugar?</string>
-    <string name="lugar_eliminar_confirmacion">Lugar Borrado</string>
+    <!--- Conexión-->
+    <string name="rellenarCampos">Debe rellenar todos los campos</string>
+    <string name="errorCargarInfo">Error al cargar la información</string>
+    <string name="conexFallida">Conexión fallida: </string>
 
-    <string name="gps_network_not_enabled">gps_network_not_enabled</string>
-    <string name="open_location_settings">open_location_settings</string>
-    <string name="cancel">cancel</string>
+    <!--- Ubicación-->
+    <string name="marcaLugar">Lugar indicado</string>
+    <string name="dialogLocat">Habilitar ubicación</string>
+    <string name="locationSetting">Sus ajustes de ubicación están deshabilitados.</string>
+    <string name="locationSetting2">Por favor, habilítelos para utilizar Monparti</string>
+    <string name="botonLocSet">Ajustes de ubicación</string>
+    <string name="secExcep">Excepción de seguridad</string>
+
+    <!--- Eliminar-->
+    <string name="eliminarLugar">Eliminar Lugar</string>
+    <string name="mensajeEliminar">¿Está seguro que desea eliminar el lugar?</string>
+    <string name="lugarBorradoConfirm">Lugar Borrado</string>
+    <string name="botonCancel">Cancel</string>
+    <string name="errorEliminar">Error al eliminar lugar</string>
 </resources>
