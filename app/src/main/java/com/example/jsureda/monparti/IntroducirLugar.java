@@ -312,11 +312,9 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     }
 
     private class EditLugarTask extends AsyncTask<Lugar, Void, Boolean> {
-
         @Override
         protected Boolean doInBackground(Lugar... lugar) {
             return mLugarDBHelper.updateLugar(lugar[0], mLugarID) > 0;
-
         }
 
     }
@@ -331,6 +329,8 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         gac.disconnect();
         super.onStop();
     }
+
+
 
     @Override
     public void onLocationChanged(Location location) {
