@@ -16,8 +16,8 @@
             android:id="@+id/layAned"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="80dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="100dp"
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
@@ -32,13 +32,8 @@
 
                 <TextView
                     android:id="@+id/lblNombreANed"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/labelNombre"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/Label"
+                    android:text="@string/labelNombre" />
 
                 <EditText
                     android:id="@+id/txtNombreAned"
@@ -59,13 +54,8 @@
 
                 <TextView
                     android:id="@+id/lblDescAned"
-                    android:layout_width="300dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/labelDescripcion"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/Label"
+                    android:text="@string/labelDescripcion" />
 
                 <EditText
                     android:id="@+id/txtDescAned"
@@ -84,13 +74,8 @@
 
                 <TextView
                     android:id="@+id/lblHorarioAned"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/labelHorario"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/Label"
+                    android:text="@string/labelHorario" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -100,7 +85,7 @@
 
                     <EditText
                         android:id="@+id/txtAbreAned"
-                        android:layout_width="100dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
@@ -116,7 +101,7 @@
 
                     <EditText
                         android:id="@+id/txtCierraAned"
-                        android:layout_width="100dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
@@ -134,16 +119,12 @@
 
                 <TextView
                     android:id="@+id/lblCatAned"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/labelCategoria"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/Label"
+                    android:text="@string/labelCategoria" />
 
                 <Spinner
                     android:id="@+id/spnCatAned"
+                    style="@style/Platform.Widget.AppCompat.Spinner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -158,13 +139,8 @@
 
                 <TextView
                     android:id="@+id/lblNotaAned"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/labelNota"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/Label"
+                    android:text="@string/labelNota" />
 
                 <RatingBar
                     android:id="@+id/barraNotaAned"
@@ -190,7 +166,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_weight="1"
-                    app:srcCompat="@mipmap/ic_launcher" />
+                    app:srcCompat="@drawable/sinimagen" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -200,20 +176,12 @@
 
                     <ImageButton
                         android:id="@+id/iBtnCamara"
-                        style="@style/Widget.AppCompat.ImageButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
+                        style="@style/BotonesConImagen"
                         app:srcCompat="@drawable/btncam" />
 
                     <ImageButton
                         android:id="@+id/iBtnGaleria"
-                        style="@style/Widget.AppCompat.ImageButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
+                        style="@style/BotonesConImagen"
                         app:srcCompat="@drawable/btngaleria" />
 
                 </LinearLayout>
@@ -228,19 +196,16 @@
                 android:orientation="horizontal">
 
                 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:id="@+id/mapViewAned"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_weight="1" />
 
                 <ImageButton
                     android:id="@+id/iBtnGuardar"
-                    style="@style/Widget.AppCompat.ImageButton"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
+                    style="@style/BotonesConImagen"
+                    android:layout_width="300dp"
                     app:srcCompat="@drawable/markmap" />
             </LinearLayout>
 

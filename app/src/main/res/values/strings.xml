@@ -3,7 +3,7 @@
 
     <!--- Listado -->
     <string-array name="spinnerCategoria">
-        <item>Seleccionar categoria</item>
+        <item>Seleccionar categoría</item>
         <item>Monumentos</item>
         <item>Parques</item>
         <item>Tiendas</item>

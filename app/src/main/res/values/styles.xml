@@ -20,7 +20,6 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center_vertical</item>
-
     </style>
 
     <style name="TextoEditable" parent="android:Widget.EditText">

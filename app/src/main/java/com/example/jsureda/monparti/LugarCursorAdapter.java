@@ -66,21 +66,6 @@ public class LugarCursorAdapter extends CursorAdapter {
             icon=StringBitmap.StringToBitMap(imag);
         }
         imagen.setImageBitmap(icon);
-       /* Glide
-                .with(context)
-                .load(Uri.parse("file:///android_asset/" + imag))
-                .asBitmap()
-                .error(R.drawable.logo_monparti_borde)
-                .centerCrop()
-                .into(new BitmapImageViewTarget(imagen) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable drawable
-                                = RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                        drawable.setCircular(true);
-                        imagen.setImageDrawable(drawable);
-                    }
-                });*/
 
     }
 
