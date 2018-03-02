@@ -35,10 +35,7 @@
 
                 <EditText
                     android:id="@+id/txtNombreAned"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ems="10"
+                    style="@style/TextoEditable"
                     android:inputType="textPersonName"
                     android:selectAllOnFocus="false" />
 
@@ -57,10 +54,7 @@
 
                 <EditText
                     android:id="@+id/txtDescAned"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:ems="10"
+                    style="@style/TextoEditable"
                     android:inputType="textMultiLine" />
 
             </LinearLayout>
@@ -83,26 +77,24 @@
 
                     <EditText
                         android:id="@+id/txtAbreAned"
-                        android:layout_width="200dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
+                        style="@style/TextoEditable"
                         android:focusableInTouchMode="false"
                         android:inputType="time" />
 
                     <TextView
                         android:id="@+id/lblGuion"
-                        android:layout_width="wrap_content"
+                        android:layout_width="30dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/labelGuion" />
 
                     <EditText
                         android:id="@+id/txtCierraAned"
-                        android:layout_width="200dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ems="10"
+                        style="@style/TextoEditable"
                         android:focusableInTouchMode="false"
                         android:inputType="time" />
 

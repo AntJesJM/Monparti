@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -84,12 +85,14 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     SupportMapFragment mapFragment;
     private String foto;
     Location mLoc;
+    static Bitmap imageBit = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_introducir_lugar);
         inicializarUI();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         editable = getIntent().getBooleanExtra("editando", false);
@@ -217,6 +220,20 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         });
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable("BitmapImage", imageBit);
+        super.onSaveInstanceState(outState);
+   }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can restore the view hierarchy
+        super.onRestoreInstanceState(savedInstanceState);
+        imageBit = (Bitmap) savedInstanceState.getParcelable("BitmapImage");
+        iv.setImageBitmap(imageBit);
+    }
+
     @SuppressLint("MissingPermission")
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -286,7 +303,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         lat = String.valueOf(latitud);
         lon = String.valueOf(longitud);
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(desc) || TextUtils.isEmpty(open) ||
-                TextUtils.isEmpty(close) || spnCategorias.getSelectedItemPosition()==0 || TextUtils.isEmpty(nota) || latitud==0 || longitud==0) {
+                TextUtils.isEmpty(close) || spnCategorias.getSelectedItemPosition() == 0 || TextUtils.isEmpty(nota) || latitud == 0 || longitud == 0) {
             Toast.makeText(getApplicationContext(),
                     R.string.rellenarCampos, Toast.LENGTH_SHORT).show();
             vacio = true;
@@ -331,7 +348,6 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     }
 
 
-
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
@@ -362,7 +378,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(IntroducirLugar.this, R.string.conexFallida +"\n" + connectionResult.toString(),
+        Toast.makeText(IntroducirLugar.this, R.string.conexFallida + "\n" + connectionResult.toString(),
                 Toast.LENGTH_LONG).show();
     }
 
@@ -372,15 +388,15 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap imagen = null;
+
         if (requestCode == DESDE_CAMARA && resultCode == RESULT_OK && data != null) {
-            imagen = (Bitmap) data.getParcelableExtra("data");
-            IntroducirLugar.imagen = StringBitmap.BitMapToString(imagen);
+            imageBit = (Bitmap) data.getParcelableExtra("data");
+            IntroducirLugar.imagen = StringBitmap.BitMapToString(imageBit);
 
         } else if (requestCode == DESDE_GALERIA && resultCode == RESULT_OK && data != null) {
             Uri rutaImagen = data.getData();
             try {
-                imagen = MediaStore.Images.Media.getBitmap(getContentResolver(), rutaImagen);
+                imageBit = MediaStore.Images.Media.getBitmap(getContentResolver(), rutaImagen);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -394,11 +410,11 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         } else {
             Toast toast = Toast.makeText(IntroducirLugar.this, R.string.noFoto, Toast.LENGTH_LONG);
         }
-        iv.setImageBitmap(imagen);
+        iv.setImageBitmap(imageBit);
     }
 
     private void updateUI(Location loc) {
-        mLoc=loc;
+        mLoc = loc;
         mMap.clear();
         LatLng rest = new LatLng(mLoc.getLatitude(), mLoc.getLongitude());
         mMap.addMarker(new MarkerOptions().position(rest).title("Lugar seleccionado"));
@@ -459,7 +475,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     private void showAlert() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle(R.string.dialogLocat)
-                .setMessage(R.string.locationSetting+"\n"+R.string.locationSetting2)
+                .setMessage(R.string.locationSetting + "\n" + R.string.locationSetting2)
                 .setPositiveButton(R.string.botonLocSet, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
@@ -488,7 +504,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
                     try {
                         LocationServices.FusedLocationApi.requestLocationUpdates(gac, locationRequest, this);
                     } catch (SecurityException e) {
-                        Toast.makeText(IntroducirLugar.this, R.string.secExcep+"\n" + e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(IntroducirLugar.this, R.string.secExcep + "\n" + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Toast.makeText(IntroducirLugar.this, R.string.pDenegado, Toast.LENGTH_LONG).show();
