@@ -222,16 +222,21 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+
         outState.putParcelable("BitmapImage", imageBit);
         super.onSaveInstanceState(outState);
-   }
+    }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can restore the view hierarchy
         super.onRestoreInstanceState(savedInstanceState);
         imageBit = (Bitmap) savedInstanceState.getParcelable("BitmapImage");
-        iv.setImageBitmap(imageBit);
+        if (imageBit == null) {
+            iv.setImageResource(R.drawable.sinimagen);
+        } else {
+            iv.setImageBitmap(imageBit);
+        }
     }
 
     @SuppressLint("MissingPermission")

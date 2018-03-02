@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--- Listado -->
-    <string-array name="spinnerCategoria">
-        <item>Sélectionnez une catégorie</item>
-        <item>Monuments</item>
-        <item>Parcs</item>
-        <item>Boutiques</item>
-    </string-array>
-    <string name="botonMapa">Map</string>
-
     <!--- Añadir / Editar / Ver-->
     <string name="labelNombre">"Nom: "</string>
     <string name="labelDescripcion">"Description: "</string>
@@ -17,8 +8,40 @@
     <string name="labelNota">"Qualification: "</string>
     <string name="labelCategoria">"Catégorie: "</string>
     <string name="picker">Sélectionnez l´heure</string>
+
+    <string name="posicion">Posición actual</string>
+    <string name="noFoto">No hay foto seleccionada</string>
     <!--- Diálogo eliminar-->
     <string name="botonAceptar">Accepter</string>
     <string name="botonCancelar">Annuler</string>
+
+    <!--- Ventana Listado-->
     <string name="btnVerMapa">Voir la carte</string>
+    <string name="permisosLocalizacion">Accorder des autorisations de localisation</string>
+    <string name="tPermisosLocalizacion">Autorisations de localisation</string>
+
+    <!--- Pregunta de permisos-->
+    <string name="tituloPermisosLoc">Les permis de géolocalisation sont nécessaires</string>
+    <string name="mensajePermisosLoc">Cette application nécessite une autorisation de géolocalisation, veuillez accepter cette demande afin d`utiliser cette fonctionnalité</string>
+    <string name="pDenegado">Refusé permission</string>
+
+    <!--- Conexión-->
+    <string name="rellenarCampos">Vous devez remplir tous les champs</string>
+    <string name="errorCargarInfo">Erreur lors du chargement des informations</string>
+    <string name="conexFallida">Échec de la connexion: </string>
+
+    <!--- Ubicación-->
+    <string name="marcaLugar">Lieu indiqué</string>
+    <string name="dialogLocat">Activer l`emplacement</string>
+    <string name="locationSetting">Vos paramètres de localisation sont désactivés.</string>
+    <string name="locationSetting2">Veuillez leur permettre d`utiliser Monparti</string>
+    <string name="botonLocSet">Paramètres de localisation</string>
+    <string name="secExcep">Exception de sécurité</string>
+
+    <!--- Eliminar-->
+    <string name="eliminarLugar">Supprimer le lieu</string>
+    <string name="mensajeEliminar">Êtes-vous sûr de vouloir supprimer le lieu?</string>
+    <string name="lugarBorradoConfirm">Lieu supprimé</string>
+    <string name="botonCancel">Annuler</string>
+    <string name="errorEliminar">Erreur lors de la suppression d`un lieu</string>
 </resources>

@@ -35,9 +35,9 @@ public class LugarDBHelper extends SQLiteOpenHelper {
     }
 
     private void mockData(SQLiteDatabase database) {
-        mockLugar(database, new Lugar("Plaza Pistacho", "Es un monumento", "12:00-20:00", "Monumentos", "4.5", "37.404661", "-5.994504", ""));
-        mockLugar(database, new Lugar("Tienda Pocha", "Es una tienda", "12:00-20:00", "Tiendas", "3.5", "37.404661", "-5.994504", ""));
-        mockLugar(database,new Lugar("Cojones","Puta Mierda","10:00","Parques","5","-7.404661","37.404661",""));
+        mockLugar(database, new Lugar("Plaza Pipo", "Data del siglo XV", "12:00-18:00", "Monumentos", "4.5", "37.404661", "-5.994504", ""));
+        mockLugar(database, new Lugar("Presta Shop", "Comercia con ropa", "09:00-20:00", "Tiendas", "3.5", "37.404661", "-5.994504", ""));
+
     }
 
     public long mockLugar(SQLiteDatabase db, Lugar lugar) {
