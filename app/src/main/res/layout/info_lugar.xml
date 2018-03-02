@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/imgLugar"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="82dp"
+        android:layout_height="108dp"
         android:layout_weight="1" />
 
     <LinearLayout
@@ -20,12 +20,14 @@
 
         <TextView
             android:id="@+id/lblNombre"
+            style="@style/Label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
 
         <TextView
             android:id="@+id/lblHorario"
+            style="@style/Label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
