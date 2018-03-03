@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -315,6 +314,12 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         }
         if (vacio) {
             return;
+        } if (spnCategorias.getSelectedItemPosition() == 1) {
+            categ = "Monumentos";
+        } else if (spnCategorias.getSelectedItemPosition() == 2) {
+            categ = "Parques";
+        } else if (spnCategorias.getSelectedItemPosition() == 3) {
+            categ = "Tiendas";
         }
         horario = open + "-" + close;
         Lugar lugar = new Lugar(name, desc, horario, categ, nota, lon, lat, imagen);

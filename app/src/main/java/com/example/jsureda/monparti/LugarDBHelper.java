@@ -61,7 +61,7 @@ public class LugarDBHelper extends SQLiteOpenHelper {
 
     public Cursor getAllLugares() {
 
-        if (Listado.spinner.getSelectedItem().equals("Elegir categoría")) {
+        if (Listado.spinner.getSelectedItemPosition() == 0){
             return getReadableDatabase()
                     .query(
                             TablaLugares.Columna.TABLE_NAME,
@@ -72,7 +72,15 @@ public class LugarDBHelper extends SQLiteOpenHelper {
                             null,
                             null);
         } else {
-            String categoria = (String) Listado.spinner.getSelectedItem();
+            String categoria = "";
+            int poss = Listado.spinner.getSelectedItemPosition();
+            if (poss == 1) {
+                categoria = "Monumentos";
+            }else if(poss == 2) {
+                categoria = "Parques";
+            }else if(poss == 3){
+                categoria = "Tiendas";
+            }
             return getReadableDatabase().query(
                     TablaLugares.Columna.TABLE_NAME,
                     null,
@@ -85,7 +93,7 @@ public class LugarDBHelper extends SQLiteOpenHelper {
     }
     public Cursor getAllLugaresMapa() {
 
-        if (VerMapa.spnCategorias.getSelectedItem().equals("Elegir categoría")){
+        if (VerMapa.spnCategorias.getSelectedItemPosition() == 0){
             return getReadableDatabase()
                     .query(
                             TablaLugares.Columna.TABLE_NAME,
@@ -96,7 +104,15 @@ public class LugarDBHelper extends SQLiteOpenHelper {
                             null,
                             null);
         } else {
-            String categoria = (String) VerMapa.spnCategorias.getSelectedItem();
+            String categoria = "";
+            int poss = VerMapa.spnCategorias.getSelectedItemPosition();
+            if (poss == 1) {
+                categoria = "Monumentos";
+            }else if(poss == 2) {
+                categoria = "Parques";
+            }else if(poss == 3){
+                categoria = "Tiendas";
+            }
             return getReadableDatabase().query(
                     TablaLugares.Columna.TABLE_NAME,
                     null,
