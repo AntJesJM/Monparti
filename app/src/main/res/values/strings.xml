@@ -8,7 +8,7 @@
         <item>Parques</item>
         <item>Tiendas</item>
     </string-array>
-
+    <string name="salir">Vuelva a presionar para salir</string>
     <!--- Añadir / Editar / Ver-->
     <string name="labelNombre">Nombre: </string>
     <string name="labelDescripcion">Descripción: </string>
@@ -39,8 +39,8 @@
     <!--- Ubicación-->
     <string name="marcaLugar">Lugar indicado</string>
     <string name="dialogLocat">Habilitar ubicación</string>
-    <string name="locationSetting">Sus ajustes de ubicación están deshabilitados.</string>
-    <string name="locationSetting2">Por favor, habilítelos para utilizar Monparti</string>
+    <string name="locationSetting">Sus ajustes de ubicación están deshabilitados.
+        Por favor, habilítelos para utilizar Monparti</string>
     <string name="botonLocSet">Ajustes de ubicación</string>
     <string name="secExcep">Excepción de seguridad</string>
 

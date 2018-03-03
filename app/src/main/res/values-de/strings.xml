@@ -19,8 +19,8 @@
     <string name="errorCargarInfo">Fehler beim Laden der Informationen</string>
     <string name="marcaLugar">Angegebener Ort</string>
     <string name="dialogLocat">Standort aktivieren</string>
-    <string name="locationSetting">Ihre Standorteinstellungen sind deaktiviert</string>
-    <string name="locationSetting2">Bitte, aktiviert, um MonParti zu verwenden</string>
+    <string name="locationSetting">Ihre Standorteinstellungen sind deaktiviert.
+        Bitte, aktiviert, um MonParti zu verwenden</string>
     <string name="botonLocSet">Standorteinstellungen</string>
     <string name="secExcep">Sicherheitsausnahme</string>
     <string name="eliminarLugar">Ort löschen</string>

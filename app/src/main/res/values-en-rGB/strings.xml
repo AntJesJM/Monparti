@@ -8,7 +8,7 @@
         <item>Parks</item>
         <item>Shops</item>
     </string-array>
-
+    <string name="salir">Press back again to exit</string>
     <!--- Añadir / Editar / Ver-->
     <string name="labelNombre">Name: </string>
     <string name="labelDescripcion">Description: </string>
@@ -39,8 +39,8 @@
     <!--- Ubicación-->
     <string name="marcaLugar">Indicated place</string>
     <string name="dialogLocat">Enable location</string>
-    <string name="locationSetting">Your lotacion settings are disabled.</string>
-    <string name="locationSetting2">Please, able them to use Monparti.</string>
+    <string name="locationSetting">Your lotacion settings are disabled.
+        Please, able them to use Monparti.</string>
     <string name="botonLocSet">Location settings</string>
     <string name="secExcep">Security exception</string>
 

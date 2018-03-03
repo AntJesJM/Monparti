@@ -480,7 +480,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     private void showAlert() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle(R.string.dialogLocat)
-                .setMessage(R.string.locationSetting + "\n" + R.string.locationSetting2)
+                .setMessage(R.string.locationSetting)
                 .setPositiveButton(R.string.botonLocSet, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {

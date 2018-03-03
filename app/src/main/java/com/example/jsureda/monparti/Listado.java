@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class Listado extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -28,7 +30,7 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
     private LugarCursorAdapter mLugarAdapter;
     private LugarDBHelper mLugarDbHelper;
     private FloatingActionButton fab;
-
+    boolean exit = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +136,24 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
                 // Mostrar empty state
             }
         }
+    }
+    @Override
+    public void onBackPressed() {
+        if (exit) {
+            finish(); // finish activity
+        } else {
+            Toast.makeText(this, R.string.salir,
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+
+        }
+
     }
 
 }

@@ -33,8 +33,8 @@
     <!--- Ubicación-->
     <string name="marcaLugar">Lieu indiqué</string>
     <string name="dialogLocat">Activer l`emplacement</string>
-    <string name="locationSetting">Vos paramètres de localisation sont désactivés.</string>
-    <string name="locationSetting2">Veuillez leur permettre d`utiliser Monparti</string>
+    <string name="locationSetting">Vos paramètres de localisation sont désactivés.
+        Veuillez leur permettre d`utiliser Monparti</string>
     <string name="botonLocSet">Paramètres de localisation</string>
     <string name="secExcep">Exception de sécurité</string>
 
