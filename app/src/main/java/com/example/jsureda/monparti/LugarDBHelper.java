@@ -35,8 +35,8 @@ public class LugarDBHelper extends SQLiteOpenHelper {
     }
 
     private void mockData(SQLiteDatabase database) {
-        mockLugar(database, new Lugar("Plaza Pipo", "Data del siglo XV", "12:00-18:00", "Monumentos", "4.5", "37.404661", "-5.994504", ""));
-        mockLugar(database, new Lugar("Presta Shop", "Comercia con ropa", "09:00-20:00", "Tiendas", "3.5", "37.404661", "-5.994504", ""));
+        mockLugar(database, new Lugar("Plaza de España, Sevilla", "Conjunto arquitectonico proyectado por Anibal Gonzalez", "9:00-9:00", "Monumentos", "4.5", "-5.985924", "37.376954", ""));
+        mockLugar(database, new Lugar("Presta Shop", "Comercia con ropa", "09:00-20:00", "Tiendas", "3.5", "-5.994504", "37.404661", ""));
 
     }
 
@@ -73,6 +73,30 @@ public class LugarDBHelper extends SQLiteOpenHelper {
                             null);
         } else {
             String categoria = (String) Listado.spinner.getSelectedItem();
+            return getReadableDatabase().query(
+                    TablaLugares.Columna.TABLE_NAME,
+                    null,
+                    TablaLugares.Columna.CATEGORIA + " LIKE ?",
+                    new String[]{categoria},
+                    null,
+                    null,
+                    null);
+        }
+    }
+    public Cursor getAllLugaresMapa() {
+
+        if (VerMapa.spnCategorias.getSelectedItem().equals("Elegir categoría")){
+            return getReadableDatabase()
+                    .query(
+                            TablaLugares.Columna.TABLE_NAME,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null);
+        } else {
+            String categoria = (String) VerMapa.spnCategorias.getSelectedItem();
             return getReadableDatabase().query(
                     TablaLugares.Columna.TABLE_NAME,
                     null,
