@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name" translatable="false">Monparti</string>
 
     <!--- Listado -->
     <string-array name="spinnerCategoria">
@@ -7,18 +8,46 @@
         <item>Parks</item>
         <item>Shops</item>
     </string-array>
-    <string name="botonMapa">Map</string>
 
     <!--- Añadir / Editar / Ver-->
     <string name="labelNombre">Name: </string>
     <string name="labelDescripcion">Description: </string>
     <string name="labelHorario">Schedule: </string>
+    <string name="labelGuion" translatable="false"> - </string>
     <string name="labelNota">Rate: </string>
     <string name="labelCategoria">Category: </string>
+    <string name="picker">Choose schedule</string>
+    <string name="posicion">Actual position</string>
+    <string name="noFoto">Theres no photo selected</string>
 
-    <!--- Diálogo eliminar-->
-    <string name="botonAceptar">Accept</string>
-    <string name="botonCancelar">Cancel</string>
-    <string name="title_activity_ver_lugar">SeePlace</string>
+    <!--- Ventana Listado-->
+    <string name="btnVerMapa">See on map</string>
+    <string name="permisosLocalizacion">Garant location permits</string>
+    <string name="tPermisosLocalizacion">Location permits</string>
 
+    <!--- Pregunta de permisos-->
+    <string name="tituloPermisosLoc">Its need geolocation permits</string>
+    <string name="mensajePermisosLoc">This app needs geolocation permits, please accept this petition to use this functionality</string>
+    <string name="botonAceptarPermisos" translatable="false">OK</string>
+    <string name="pDenegado">Permission denied</string>
+
+    <!--- Conexión-->
+    <string name="rellenarCampos">Must fill all the fields</string>
+    <string name="errorCargarInfo">Failure to charge the information</string>
+    <string name="conexFallida">Conection failed: </string>
+
+    <!--- Ubicación-->
+    <string name="marcaLugar">Indicated place</string>
+    <string name="dialogLocat">Enable location</string>
+    <string name="locationSetting">Your lotacion settings are disabled.</string>
+    <string name="locationSetting2">Please, able them to use Monparti.</string>
+    <string name="botonLocSet">Location settings</string>
+    <string name="secExcep">Security exception</string>
+
+    <!--- Eliminar-->
+    <string name="eliminarLugar">Delete place</string>
+    <string name="mensajeEliminar">¿Are you sure you want to delete this place?</string>
+    <string name="lugarBorradoConfirm">Place deleted</string>
+    <string name="botonCancel">Cancel</string>
+    <string name="errorEliminar">Delete place error.</string>
 </resources>
