@@ -128,7 +128,7 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
         mMap.addMarker(new MarkerOptions().position(rest).title("Lugar " + mNombre.getText()));
         CameraPosition cameraPosition = CameraPosition.builder()
                 .target(rest)
-                .zoom(11)
+                .zoom(15)
                 .build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
