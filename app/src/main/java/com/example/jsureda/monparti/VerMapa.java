@@ -3,7 +3,11 @@ package com.example.jsureda.monparti;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
@@ -27,8 +31,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class VerMapa extends AppCompatActivity
         implements OnMapReadyCallback, AdapterView.OnItemSelectedListener {
@@ -41,19 +48,24 @@ public class VerMapa extends AppCompatActivity
     FusedLocationProviderClient mFusedLocationClient;
     Spinner spnCategorias;
     ArrayAdapter<CharSequence> adapter;
+    private LugarCursorAdapter mLugarAdapter;
+    private LugarDBHelper mLugarDbHelper;
+    String catgs;
+    String catg[];
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_mapa);
-
-
-
+        catg = getResources().getStringArray(R.array.spinnerCategoria);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapViewMap);
         mapFrag.getMapAsync(this);
+        catgs = getIntent().getStringExtra("categorias");
+        mLugarDbHelper = new LugarDBHelper((getApplicationContext()));
+
+
+
         spnCategorias = (Spinner) findViewById(R.id.spnCatMap);
         adapter = ArrayAdapter.createFromResource(this, R.array.spinnerCategoria, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -72,12 +84,11 @@ public class VerMapa extends AppCompatActivity
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
+    public void onMapReady(GoogleMap googleMap) {
         GoogleMapOptions options = new GoogleMapOptions();
-        mGoogleMap=googleMap;
-       options.mapType(mGoogleMap.MAP_TYPE_NORMAL).compassEnabled(true).rotateGesturesEnabled(true).tiltGesturesEnabled(true)
-       ;
+        mGoogleMap = googleMap;
+        options.mapType(mGoogleMap.MAP_TYPE_NORMAL).compassEnabled(true).rotateGesturesEnabled(true).tiltGesturesEnabled(true)
+        ;
 
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(120000); // two minute interval
@@ -95,14 +106,13 @@ public class VerMapa extends AppCompatActivity
                 //Request Location Permission
                 checkLocationPermission();
             }
-        }
-        else {
+        } else {
             mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
             mGoogleMap.setMyLocationEnabled(true);
         }
     }
 
-    LocationCallback mLocationCallback = new LocationCallback(){
+    LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             for (Location location : locationResult.getLocations()) {
@@ -112,22 +122,28 @@ public class VerMapa extends AppCompatActivity
                     mCurrLocationMarker.remove();
                 }
 
+
                 //Place current location marker
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                /* MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
                 markerOptions.title("Current Position");*/
-               //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
                 //mCurrLocationMarker = mMap.addMarker(markerOptions);
 
                 //move map camera
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+
+
             }
-        };
+        }
+
+        ;
 
     };
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -148,7 +164,7 @@ public class VerMapa extends AppCompatActivity
                                 //Prompt the user once explanation has been shown
                                 ActivityCompat.requestPermissions(VerMapa.this,
                                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                                        MY_PERMISSIONS_REQUEST_LOCATION );
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
                             }
                         })
                         .create()
@@ -159,7 +175,7 @@ public class VerMapa extends AppCompatActivity
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION );
+                        MY_PERMISSIONS_REQUEST_LOCATION);
             }
         }
     }
@@ -206,6 +222,68 @@ public class VerMapa extends AppCompatActivity
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+    public void CargarLugares (String catgs, GoogleMap mGoogleMap) {
+
+    }
+    private void loadLugar() {
+        new GetLugares().execute();
+    }
+
+    private void showLugar (Lugar lugar) {
+        int icons[] = {
+                R.drawable.monumentos,
+                R.drawable.parques,
+                R.drawable.tiendas
+        };
+        int icono = 0;
+        LatLng rest= new LatLng(Double.parseDouble(lugar.getLatitud()), Double.parseDouble(lugar.getLongitud()));
+        for(int i=0;i<catg.length;i++)
+            if  (lugar.getCategoria().equals(catg[i])) {
+                icono = icons[i];
+                break;
+            }
+
+
+        int height = 100;
+        int width = 100;
+
+        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(icono);
+        Bitmap b=bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+        if (catgs.equals("Ver todos")||catgs.equals(lugar.getCategoria())) {
+            mGoogleMap.addMarker(new MarkerOptions()
+                    .position(rest)
+                    .title(lugar.getNombre())
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
+
+        }
+        CameraPosition cameraPosition = CameraPosition.builder()
+                .target(rest)
+                .zoom(11)
+                .build();
+        mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+
+
+    private class GetLugares extends AsyncTask<Void, Void, Cursor> {
+
+        @Override
+        protected Cursor doInBackground(Void... voids) {
+            return mLugarDbHelper.getAllLugares();
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast())
+            {
+                showLugar(new Lugar(cursor));
+                cursor.moveToNext();
+            }
+        }
 
     }
 }
