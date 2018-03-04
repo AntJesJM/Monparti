@@ -85,6 +85,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
     private String foto;
     Location mLoc;
     static Bitmap imageBit = null;
+    String[] categorias = {"Monumentos", "Parques", "Tiendas"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,7 +253,15 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         String horario[] = lugar.getHorario().split("-");
         apertura.setText(horario[0]);
         cierre.setText(horario[1]);
-        spnCategorias.setSelection(getIndex(spnCategorias, lugar.getCategoria()));
+        int indice = 0;
+        if (lugar.getCategoria().equals(categorias[0])) {
+            indice = 1;
+        } else if (lugar.getCategoria().equals(categorias[1])) {
+            indice = 2;
+        } else if (lugar.getCategoria().equals(categorias[2])) {
+            indice = 3;
+        }
+        spnCategorias.setSelection(indice);
         barra.setRating(Float.parseFloat(lugar.getValoracion()));
         foto = lugar.getImagen();
 
@@ -314,12 +323,13 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         }
         if (vacio) {
             return;
-        } if (spnCategorias.getSelectedItemPosition() == 1) {
-            categ = "Monumentos";
+        }
+        if (spnCategorias.getSelectedItemPosition() == 1) {
+            categ = categorias[0];
         } else if (spnCategorias.getSelectedItemPosition() == 2) {
-            categ = "Parques";
+            categ = categorias[1];
         } else if (spnCategorias.getSelectedItemPosition() == 3) {
-            categ = "Tiendas";
+            categ = categorias[2];
         }
         horario = open + "-" + close;
         Lugar lugar = new Lugar(name, desc, horario, categ, nota, lon, lat, imagen);

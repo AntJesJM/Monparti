@@ -20,8 +20,6 @@
     <string name="posicion">Position actuelle</string>
     <string name="noFoto">Aucune photo sélectionnée</string>
 
-
-
     <!--- Ventana Listado-->
     <string name="btnVerMapa">Voir la carte</string>
     <string name="permisosLocalizacion">Accorder des autorisations de localisation</string>
