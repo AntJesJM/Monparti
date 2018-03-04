@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="spinnerCategoria">
+        <item>Wählen Sie die Kategorie</item>
+        <item>Denkmäler</item>
+        <item>Parks</item>
+        <item>Geschäfte</item>
+    </string-array>
     <string name="labelNombre">Name:</string>
     <string name="labelDescripcion">Beschreibung:</string>
     <string name="labelHorario">Kalender</string>

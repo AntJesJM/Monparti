@@ -34,10 +34,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.Arrays;
-
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREEN;
-import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_VIOLET;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_ROSE;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_YELLOW;
 
 public class VerMapa extends AppCompatActivity
@@ -52,15 +50,13 @@ public class VerMapa extends AppCompatActivity
     public static Spinner spnCategorias;
     ArrayAdapter<CharSequence> adapter;
     private LugarDBHelper mLugarDBHelper;
-    String[] categoria;
-    float[] marcas = {HUE_YELLOW, HUE_GREEN, HUE_VIOLET};
+    String[] categoria = {"Monumentos", "Parques", "Tiendas"};
+    float[] marcas = {HUE_YELLOW, HUE_GREEN, HUE_ROSE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ver_mapa);
-        categoria = getResources().getStringArray(R.array.spinnerCategoria);
-        categoria = Arrays.copyOfRange(categoria, 1, 4);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapViewMap);
@@ -237,6 +233,8 @@ public class VerMapa extends AppCompatActivity
                 marca = marcas[i];
                 break;
             }
+
+
 
         mGoogleMap.addMarker(new MarkerOptions()
                 .position(rest)

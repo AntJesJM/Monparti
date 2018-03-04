@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="spinnerCategoria">
+        <item>Choisissez une catégorie</item>
+        <item>Les monuments</item>
+        <item>Parcs</item>
+        <item>Magasins</item>
+    </string-array>
+    <string name="salir">Appuyez à nouveau pour quitter</string>
+
     <!--- Añadir / Editar / Ver-->
     <string name="labelNombre">"Nom: "</string>
     <string name="labelDescripcion">"Description: "</string>
@@ -9,11 +17,10 @@
     <string name="labelCategoria">"Catégorie: "</string>
     <string name="picker">Sélectionnez l´heure</string>
 
-    <string name="posicion">Posición actual</string>
-    <string name="noFoto">No hay foto seleccionada</string>
-    <!--- Diálogo eliminar-->
-    <string name="botonAceptar">Accepter</string>
-    <string name="botonCancelar">Annuler</string>
+    <string name="posicion">Position actuelle</string>
+    <string name="noFoto">Aucune photo sélectionnée</string>
+
+
 
     <!--- Ventana Listado-->
     <string name="btnVerMapa">Voir la carte</string>

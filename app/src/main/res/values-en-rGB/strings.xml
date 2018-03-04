@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Monparti</string>
 
     <!--- Listado -->
     <string-array name="spinnerCategoria">
@@ -13,7 +12,6 @@
     <string name="labelNombre">Name: </string>
     <string name="labelDescripcion">Description: </string>
     <string name="labelHorario">Schedule: </string>
-    <string name="labelGuion" translatable="false"> - </string>
     <string name="labelNota">Rate: </string>
     <string name="labelCategoria">Category: </string>
     <string name="picker">Choose schedule</string>
@@ -28,7 +26,6 @@
     <!--- Pregunta de permisos-->
     <string name="tituloPermisosLoc">Its need geolocation permits</string>
     <string name="mensajePermisosLoc">This app needs geolocation permits, please accept this petition to use this functionality</string>
-    <string name="botonAceptarPermisos" translatable="false">OK</string>
     <string name="pDenegado">Permission denied</string>
 
     <!--- Conexión-->

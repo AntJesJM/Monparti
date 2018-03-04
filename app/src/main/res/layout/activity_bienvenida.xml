@@ -9,6 +9,7 @@
 
     <TextView
         android:id="@+id/textView2"
+        style="@style/Label"
         android:layout_width="221dp"
         android:layout_height="91dp"
         android:gravity="center"

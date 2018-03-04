@@ -25,6 +25,7 @@
 
     <TextView
         android:id="@+id/textView"
+        style="@style/Label"
         android:layout_width="284dp"
         android:layout_height="117dp"
         android:gravity="center"
