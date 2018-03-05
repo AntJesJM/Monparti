@@ -13,6 +13,7 @@
 
         <Spinner
             android:id="@+id/spnCatMap"
+            style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
             android:layout_width="match_parent"
             android:layout_height="35dp"
            />

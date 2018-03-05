@@ -28,19 +28,19 @@ public class LugarCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
 
-        // Referencias UI.
+
         TextView nombreTxt = (TextView) view.findViewById(R.id.lblNombre);
         TextView horarioTxt = (TextView) view.findViewById(R.id.lblHorario);
         RatingBar rate = (RatingBar) view.findViewById(R.id.ratBarSel);
         ImageView imagen = (ImageView) view.findViewById(R.id.imgLugar);
 
-        // Get valores.
+
         String name = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.NOMBRE));
         String horario = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.HOR));
         Float nota = Float.parseFloat(cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.VALORACION)));
         String imag = cursor.getString(cursor.getColumnIndex(TablaLugares.Columna.IMAGEN));
 
-        // Setup.
+
         nombreTxt.setText(name);
         horarioTxt.setText(horario);
         rate.setRating(nota);

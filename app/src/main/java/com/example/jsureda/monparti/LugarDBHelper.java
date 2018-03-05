@@ -61,7 +61,7 @@ public class LugarDBHelper extends SQLiteOpenHelper {
 
     public Cursor getAllLugares() {
 
-        if (Listado.spinner.getSelectedItemPosition() == 0){
+        if (Listado.spinner.getSelectedItemPosition() == 0) {
             return getReadableDatabase()
                     .query(
                             TablaLugares.Columna.TABLE_NAME,
@@ -76,9 +76,9 @@ public class LugarDBHelper extends SQLiteOpenHelper {
             int poss = Listado.spinner.getSelectedItemPosition();
             if (poss == 1) {
                 categoria = "Monumentos";
-            }else if(poss == 2) {
+            } else if (poss == 2) {
                 categoria = "Parques";
-            }else if(poss == 3){
+            } else if (poss == 3) {
                 categoria = "Tiendas";
             }
             return getReadableDatabase().query(
@@ -91,9 +91,10 @@ public class LugarDBHelper extends SQLiteOpenHelper {
                     null);
         }
     }
+
     public Cursor getAllLugaresMapa() {
 
-        if (VerMapa.spnCategorias.getSelectedItemPosition() == 0){
+        if (VerMapa.spnCategorias.getSelectedItemPosition() == 0) {
             return getReadableDatabase()
                     .query(
                             TablaLugares.Columna.TABLE_NAME,
@@ -108,9 +109,9 @@ public class LugarDBHelper extends SQLiteOpenHelper {
             int poss = VerMapa.spnCategorias.getSelectedItemPosition();
             if (poss == 1) {
                 categoria = "Monumentos";
-            }else if(poss == 2) {
+            } else if (poss == 2) {
                 categoria = "Parques";
-            }else if(poss == 3){
+            } else if (poss == 3) {
                 categoria = "Tiendas";
             }
             return getReadableDatabase().query(

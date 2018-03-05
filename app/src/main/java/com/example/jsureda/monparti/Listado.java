@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,13 +23,14 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
 
     public static Spinner spinner;
     private ListView mLugarList;
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1 ;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     public static final String EXTRA_LUGAR_ID = "extra_lugar_id";
     ArrayAdapter<CharSequence> adapter;
     private LugarCursorAdapter mLugarAdapter;
     private LugarDBHelper mLugarDbHelper;
     private FloatingActionButton fab;
     boolean exit = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +38,6 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // int permissionCheck = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -70,7 +69,7 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
                 startActivityForResult(intent, 2);
             }
         });
-       mLugarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mLugarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cursor currentItem = (Cursor) mLugarAdapter.getItem(i);
@@ -88,11 +87,8 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
         mLugarList.setAdapter(null);
         mLugarAdapter = new LugarCursorAdapter(getApplicationContext(), null);
-        // Setup
         mLugarList.setAdapter(mLugarAdapter);
-        // Instancia de helper
         mLugarDbHelper = new LugarDBHelper(getApplicationContext());
-        // Carga de datos
         cargarLugares();
     }
 
@@ -121,6 +117,7 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
     private void cargarLugares() {
         new LugarLoadTask().execute();
     }
+
     private class LugarLoadTask extends AsyncTask<Void, Void, Cursor> {
 
         @Override
@@ -133,14 +130,15 @@ public class Listado extends AppCompatActivity implements AdapterView.OnItemSele
             if (cursor != null && cursor.getCount() > 0) {
                 mLugarAdapter.swapCursor(cursor);
             } else {
-                // Mostrar empty state
+
             }
         }
     }
+
     @Override
     public void onBackPressed() {
         if (exit) {
-            finish(); // finish activity
+            finish();
         } else {
             Toast.makeText(this, R.string.salir,
                     Toast.LENGTH_SHORT).show();

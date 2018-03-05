@@ -4,9 +4,9 @@ package com.example.jsureda.monparti;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import java.util.UUID;
-
 import com.example.jsureda.monparti.TablaLugares.Columna;
+
+import java.util.UUID;
 
 public class Lugar {
     private String id;
@@ -21,14 +21,14 @@ public class Lugar {
 
     public Lugar(String nombre, String descripcion, String horario, String categoria, String valoracion, String longitud, String latitud, String imagen) {
         id = UUID.randomUUID().toString();
-        this.nombre=nombre;
-        this.descripcion=descripcion;
-        this.horario=horario;
-        this.categoria=categoria;
-        this.valoracion=valoracion;
-        this.longitud=longitud;
-        this.latitud=latitud;
-        this.imagen=imagen;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.horario = horario;
+        this.categoria = categoria;
+        this.valoracion = valoracion;
+        this.longitud = longitud;
+        this.latitud = latitud;
+        this.imagen = imagen;
     }
 
 

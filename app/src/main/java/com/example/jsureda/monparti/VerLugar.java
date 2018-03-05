@@ -101,7 +101,6 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
                 dialogEliminar.setPositiveButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int boton) {
-
                         new DeleteLugarTask().execute();
                         setResult(RESULT_OK);
                         finish();

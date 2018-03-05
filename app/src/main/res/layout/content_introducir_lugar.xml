@@ -37,6 +37,7 @@
                 <EditText
                     android:id="@+id/txtNombreAned"
                     style="@style/TextoEditable"
+                    android:maxLength="15"
                     android:inputType="textPersonName"
                     android:selectAllOnFocus="false" />
 
@@ -55,6 +56,7 @@
 
                 <EditText
                     android:id="@+id/txtDescAned"
+                    android:maxLength="25"
                     style="@style/TextoEditable"
                     android:inputType="textMultiLine" />
 
