@@ -35,8 +35,8 @@ public class LugarDBHelper extends SQLiteOpenHelper {
     }
 
     private void mockData(SQLiteDatabase database) {
-        mockLugar(database, new Lugar("Plaza de España, Sevilla", "Conjunto arquitectonico proyectado por Anibal Gonzalez", "9:00-9:00", "Monumentos", "4.5", "-5.985924", "37.376954", ""));
-        mockLugar(database, new Lugar("Presta Shop", "Comercia con ropa", "09:00-20:00", "Tiendas", "3.5", "-5.994504", "37.404661", ""));
+        //mockLugar(database, new Lugar("Plaza de España, Sevilla", "Conjunto arquitectonico proyectado por Anibal Gonzalez", "9:00-9:00", "Monumentos", "4.5", "-5.985924", "37.376954", ""));
+        //mockLugar(database, new Lugar("Presta Shop", "Comercia con ropa", "09:00-20:00", "Tiendas", "3.5", "-5.994504", "37.404661", ""));
 
     }
 
