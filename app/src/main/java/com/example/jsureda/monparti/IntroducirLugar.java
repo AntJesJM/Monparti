@@ -21,6 +21,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -50,7 +51,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -215,7 +215,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
             public void onClick(View view) {
                 latitud = mLoc.getLatitude();
                 longitud = mLoc.getLongitude();
-                Toast.makeText(IntroducirLugar.this, "Long: " + longitud + ", Lat: " + latitud, Toast.LENGTH_LONG).show();
+                Snackbar.make(view,R.string.sbLocalizacion,Snackbar.LENGTH_SHORT).show();
             }
 
         });

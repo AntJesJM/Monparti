@@ -35,4 +35,5 @@
     <string name="botonCancel">Tilgen</string>
     <string name="errorEliminar">Fehler beim Löschen des Orts</string>
     <string name="salir">Drücken Sie erneut, um zu beenden</string>
+    <string name="sbLocalizacion">Ihr Standort wurde gespeichert</string>
 </resources>

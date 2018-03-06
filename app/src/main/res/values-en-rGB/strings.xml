@@ -47,4 +47,5 @@
     <string name="lugarBorradoConfirm">Place deleted</string>
     <string name="botonCancel">Cancel</string>
     <string name="errorEliminar">Delete place error.</string>
+    <string name="sbLocalizacion">Your location has been saved</string>
 </resources>

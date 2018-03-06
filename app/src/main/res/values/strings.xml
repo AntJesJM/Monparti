@@ -50,4 +50,9 @@
     <string name="lugarBorradoConfirm">Lugar Borrado</string>
     <string name="botonCancel">Cancelar</string>
     <string name="errorEliminar">Error al eliminar lugar</string>
+
+
+    <!--- Snackbar-->
+    <string name="sbLocalizacion">Se ha guardado su localización</string>
+
 </resources>

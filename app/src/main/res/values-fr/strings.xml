@@ -49,4 +49,5 @@
     <string name="lugarBorradoConfirm">Lieu supprimé</string>
     <string name="botonCancel">Annuler</string>
     <string name="errorEliminar">Erreur lors de la suppression d`un lieu</string>
+    <string name="sbLocalizacion">Votre position a été enregistrée</string>
 </resources>
