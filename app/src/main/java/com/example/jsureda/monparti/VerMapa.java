@@ -228,8 +228,6 @@ public class VerMapa extends AppCompatActivity
                 break;
             }
 
-
-
         mGoogleMap.addMarker(new MarkerOptions()
                 .position(rest)
                 .title(lugar.getNombre())

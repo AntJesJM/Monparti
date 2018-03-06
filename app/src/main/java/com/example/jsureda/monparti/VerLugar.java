@@ -25,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -40,8 +41,8 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
     private TextView mCategoria;
     private TextView mDescripcion;
     private TextView mHorario;
-    private String longitud;
-    private String latitud;
+    private double longitud;
+    private double latitud;
     private String foto;
     private RatingBar bar;
     private ImageButton editar;
@@ -50,6 +51,7 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
     private LocationManager locationManager;
     private ImageView img;
     private LugarDBHelper mLugarDBHelper;
+    SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,27 +110,24 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
                 });
 
                 dialogEliminar.setNegativeButton(android.R.string.no, null);
-
                 dialogEliminar.show();
             }
         });
 
-        MapFragment mMapFragment = MapFragment.newInstance();
-        FragmentTransaction fragmentTransaction =
-                getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.mapViewVer, mMapFragment);
-        fragmentTransaction.commit();
-        mMapFragment.getMapAsync(this);
+
     }
 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng rest = new LatLng(Double.parseDouble(latitud), Double.parseDouble(longitud));
-        mMap.addMarker(new MarkerOptions().position(rest).title("Lugar " + mNombre.getText()));
+        LatLng rest = new LatLng(latitud, longitud);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(rest);
+        markerOptions.title(""+mNombre.getText());
         CameraPosition cameraPosition = CameraPosition.builder()
                 .target(rest)
                 .zoom(15)
                 .build();
+        mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
@@ -142,8 +141,8 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
 
     private void mostrarLugar(Lugar lugar) {
 
-        latitud = lugar.getLatitud();
-        longitud = lugar.getLongitud();
+        latitud = Double.parseDouble(lugar.getLatitud());
+        longitud = Double.parseDouble(lugar.getLongitud());
         mNombre.setText(lugar.getNombre());
         mCategoria.setText(lugar.getCategoria());
         mDescripcion.setText(lugar.getDescripcion());
@@ -166,6 +165,9 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
             icon = StringBitmap.StringToBitMap(foto);
         }
         img.setImageBitmap(icon);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapViewVer);
+        mapFragment.getMapAsync(this);
     }
 
     private void showLoadError() {
@@ -224,4 +226,18 @@ public class VerLugar extends AppCompatActivity implements OnMapReadyCallback {
                 R.string.eliminarLugar, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putDouble("valorLatitud",latitud);
+        outState.putDouble("valorLongitud",longitud);
+
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        longitud=savedInstanceState.getDouble("valorLongitud");
+        latitud=savedInstanceState.getDouble("valorLatitud");
+    }
 }

@@ -433,7 +433,7 @@ public class IntroducirLugar extends AppCompatActivity implements OnMapReadyCall
         mLoc = loc;
         mMap.clear();
         LatLng rest = new LatLng(mLoc.getLatitude(), mLoc.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(rest).title("Lugar seleccionado"));
+        mMap.addMarker(new MarkerOptions().position(rest).title(R.string.posicion+""));
         CameraPosition cameraPosition = CameraPosition.builder()
                 .target(rest)
                 .zoom(15)
